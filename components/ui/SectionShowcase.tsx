@@ -69,16 +69,8 @@ export function SectionShowcase() {
     <div className="relative w-full text-white pointer-events-none select-none">
       {/* 1. TOP NAVIGATION */}
       <header className="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-4 flex items-center justify-between pointer-events-auto bg-transparent">
-        <div className="flex items-center gap-3">
-          {/* VantaClip Logo Icon */}
-          <div className="relative w-8 h-8 rounded-lg bg-gradient-to-br from-violet-600 to-fuchsia-600 flex items-center justify-center p-0.5 shadow-lg shadow-purple-600/30">
-            <div className="w-full h-full bg-[#08070e] rounded-[6px] flex items-center justify-center font-bold text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-fuchsia-300 text-sm tracking-tighter">
-              VC
-            </div>
-          </div>
-          <span className="font-extrabold text-lg tracking-wider text-white">
-            VANTA<span className="text-violet-400 font-light">CLIP</span>
-          </span>
+        <div className="flex items-center">
+          <img src="/logo.png" alt="VantaClip" className="h-8 md:h-10 w-auto object-contain drop-shadow-md" />
         </div>
 
         {/* Desktop Nav Links */}
@@ -101,7 +93,7 @@ export function SectionShowcase() {
         <div className="flex items-center gap-3">
           <a
             href="#booking"
-            className="px-5 py-2.5 rounded-full font-medium text-xs bg-black border border-purple-500/50 text-white shadow-[inset_0_0_20px_rgba(168,85,247,0.3),0_0_15px_rgba(168,85,247,0.2)] hover:shadow-[inset_0_0_30px_rgba(168,85,247,0.5),0_0_25px_rgba(168,85,247,0.4)] hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-1.5 backdrop-blur-md"
+            className="px-5 py-2.5 rounded-full font-medium text-xs text-white btn-complex-gradient hover:brightness-110 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-1.5"
           >
             Book Strategy Call
             <IconArrowRight className="w-3.5 h-3.5 text-purple-300" />
@@ -110,7 +102,7 @@ export function SectionShowcase() {
       </header>
 
       {/* 2. HERO SECTION */}
-      <section className="min-h-screen w-full flex flex-col justify-center px-6 md:px-14 lg:px-20 pt-28 pb-16 relative overflow-hidden">
+      <section className="snap-section min-h-screen w-full flex flex-col justify-center px-6 md:px-14 lg:px-20 pt-28 pb-16 relative overflow-hidden">
         {/* React Bits DarkVeil Ambient Kinetic Shader Background */}
         <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
           <DarkVeil
@@ -158,7 +150,7 @@ export function SectionShowcase() {
           <div className="pt-3 flex flex-wrap items-center gap-4">
             <a
               href="#booking"
-              className="px-7 py-3.5 rounded-full font-medium text-sm bg-black border border-purple-500/50 text-white shadow-[inset_0_0_20px_rgba(168,85,247,0.3),0_0_15px_rgba(168,85,247,0.2)] hover:shadow-[inset_0_0_30px_rgba(168,85,247,0.5),0_0_25px_rgba(168,85,247,0.4)] hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2 backdrop-blur-md"
+              className="px-7 py-3.5 rounded-full font-medium text-sm text-white btn-complex-gradient hover:brightness-110 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2"
             >
               Book Your Strategy Call
               <IconArrowRight className="w-4 h-4 text-purple-300" />
@@ -181,8 +173,8 @@ export function SectionShowcase() {
       </section>
 
       {/* 3. BUDGET ALERT & TRUST BADGES */}
-      <section className="w-full px-6 md:px-14 lg:px-20 py-12">
-        <div className="max-w-5xl mx-auto space-y-6 pointer-events-auto">
+      <section id="trust" className="snap-section w-full min-h-[50vh] flex flex-col justify-center px-6 md:px-14 lg:px-20 py-16">
+        <div className="max-w-5xl mx-auto w-full space-y-6 pointer-events-auto relative z-10">
           {/* Campaign Budget Alert Box */}
           <div className="p-4 sm:p-5 rounded-2xl border border-purple-500/30 bg-gradient-to-r from-purple-950/40 via-violet-950/20 to-purple-950/40 backdrop-blur-xl flex items-center gap-3.5 shadow-xl shadow-purple-950/30">
             <div className="w-8 h-8 rounded-full bg-purple-500/20 border border-purple-500/40 flex items-center justify-center shrink-0 text-purple-300">
@@ -218,18 +210,21 @@ export function SectionShowcase() {
       </section>
 
       {/* 4. "HOW IT WORKS" // 4-STEP CHOREOGRAPHED PROCESS */}
-      <section id="how-it-works" className="w-full min-h-screen px-6 md:px-14 lg:px-20 py-24 flex flex-col justify-center">
-        <div className="max-w-6xl mx-auto w-full space-y-16">
+      <section id="how-it-works" className="snap-section w-full min-h-screen px-6 md:px-14 lg:px-20 py-24 flex flex-col justify-center">
+        <div className="max-w-6xl mx-auto w-full space-y-16 relative z-10">
           {/* Header */}
           <div className="text-center max-w-2xl mx-auto space-y-4 pointer-events-auto">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-purple-500/30 bg-purple-950/30 text-purple-300 text-xs font-mono uppercase tracking-wider">
               <span className="h-1.5 w-1.5 rounded-full bg-purple-400" />
               How It Works
             </div>
-            <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-tight">
-              From One Campaign to <br className="hidden sm:inline" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-fuchsia-400">
-                Thousands of Videos
+            <h2 
+              className="flex flex-col text-[2.5rem] sm:text-[3.5rem] md:text-[4.5rem] uppercase leading-[0.85] tracking-tight mt-3 mb-5 text-white"
+              style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+            >
+              <span>FROM ONE CAMPAIGN TO</span>
+              <span className="text-transparent [-webkit-text-stroke:1.5px_rgba(255,255,255,0.8)] md:[-webkit-text-stroke:2px_rgba(255,255,255,0.8)] mt-1 md:mt-2">
+                THOUSANDS OF VIDEOS
               </span>
             </h2>
             <p className="text-base sm:text-lg text-white/60 font-light">
@@ -289,18 +284,21 @@ export function SectionShowcase() {
       </section>
 
       {/* 5. COMPARISON: "WHY CREATOR-DRIVEN BEATS TRADITIONAL ADVERTISING" */}
-      <section id="comparison" className="w-full min-h-screen px-6 md:px-14 lg:px-20 py-24 flex flex-col justify-center">
-        <div className="max-w-5xl mx-auto w-full space-y-12">
+      <section id="comparison" className="snap-section w-full min-h-screen px-6 md:px-14 lg:px-20 py-24 flex flex-col justify-center">
+        <div className="max-w-5xl mx-auto w-full space-y-12 relative z-10">
           {/* Header */}
           <div className="text-center max-w-2xl mx-auto space-y-4 pointer-events-auto">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-purple-500/30 bg-purple-950/30 text-purple-300 text-xs font-mono uppercase tracking-wider">
               <span className="h-1.5 w-1.5 rounded-full bg-purple-400" />
               Why This Works
             </div>
-            <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-tight">
-              Why Creator-Driven Beats <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-purple-300 to-fuchsia-400">
-                Traditional Advertising
+            <h2 
+              className="flex flex-col text-[2.5rem] sm:text-[3.5rem] md:text-[4.5rem] uppercase leading-[0.85] tracking-tight mt-3 mb-5 text-white"
+              style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+            >
+              <span>WHY CREATOR-DRIVEN BEATS</span>
+              <span className="text-transparent [-webkit-text-stroke:1.5px_rgba(255,255,255,0.8)] md:[-webkit-text-stroke:2px_rgba(255,255,255,0.8)] mt-1 md:mt-2">
+                TRADITIONAL ADVERTISING
               </span>
             </h2>
             <p className="text-base sm:text-lg text-white/60 font-light">
@@ -394,18 +392,21 @@ export function SectionShowcase() {
       </section>
 
       {/* 6. IMMERSIVE BENTO GRID: "WHY BRANDS CHOOSE VANTACLIP" */}
-      <section id="why-brands-stay" className="w-full min-h-screen px-6 md:px-14 lg:px-20 py-24 flex flex-col justify-center">
-        <div className="max-w-6xl mx-auto w-full space-y-12">
+      <section id="why-brands-stay" className="snap-section w-full min-h-screen px-6 md:px-14 lg:px-20 py-24 flex flex-col justify-center">
+        <div className="max-w-6xl mx-auto w-full space-y-12 relative z-10">
           {/* Header */}
           <div className="text-center max-w-2xl mx-auto space-y-4 pointer-events-auto">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-purple-500/30 bg-purple-950/30 text-purple-300 text-xs font-mono uppercase tracking-wider">
               <span className="h-1.5 w-1.5 rounded-full bg-purple-400" />
               Why Brands Stay
             </div>
-            <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-tight">
-              Why Brands Choose{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-purple-300 to-fuchsia-400">
-                VantaClip
+            <h2 
+              className="flex flex-col text-[2.5rem] sm:text-[3.5rem] md:text-[4.5rem] uppercase leading-[0.85] tracking-tight mt-3 mb-5 text-white"
+              style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+            >
+              <span>WHY BRANDS CHOOSE</span>
+              <span className="text-transparent [-webkit-text-stroke:1.5px_rgba(255,255,255,0.8)] md:[-webkit-text-stroke:2px_rgba(255,255,255,0.8)] mt-1 md:mt-2">
+                VANTACLIP
               </span>
             </h2>
             <p className="text-base sm:text-lg text-white/60 font-light">
@@ -584,8 +585,8 @@ export function SectionShowcase() {
       </section>
 
       {/* 7. HIGH-CONVERTING CLOSING STRATEGY CALL / CTA SECTION */}
-      <section id="booking" className="w-full px-6 md:px-14 lg:px-20 py-28 relative">
-        <div className="max-w-4xl mx-auto rounded-3xl border border-purple-500/40 bg-gradient-to-b from-purple-950/40 via-[#0e0a1e]/90 to-[#06050a] p-8 sm:p-14 text-center space-y-8 backdrop-blur-2xl shadow-2xl shadow-purple-950/50 pointer-events-auto relative overflow-hidden">
+      <section id="booking" className="snap-section w-full px-6 md:px-14 lg:px-20 py-28 relative">
+        <div className="max-w-4xl mx-auto rounded-3xl border border-purple-500/40 bg-gradient-to-b from-purple-950/40 via-[#0e0a1e]/90 to-[#06050a] p-8 sm:p-14 text-center space-y-8 backdrop-blur-2xl shadow-2xl shadow-purple-950/50 pointer-events-auto relative z-10 overflow-hidden">
           <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl pointer-events-none" />
 
           <div className="space-y-4 relative z-10">
@@ -593,10 +594,13 @@ export function SectionShowcase() {
               <span className="h-1.5 w-1.5 rounded-full bg-purple-400" />
               Scale Your Distribution
             </div>
-            <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-tight">
-              Ready to turn one campaign into <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-fuchsia-400">
-                millions of organic views?
+            <h2 
+              className="flex flex-col text-[2.5rem] sm:text-[3.5rem] md:text-[4.5rem] uppercase leading-[0.85] tracking-tight mt-3 mb-5 text-white"
+              style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+            >
+              <span>READY TO TURN ONE CAMPAIGN</span>
+              <span className="text-transparent [-webkit-text-stroke:1.5px_rgba(255,255,255,0.8)] md:[-webkit-text-stroke:2px_rgba(255,255,255,0.8)] mt-1 md:mt-2">
+                INTO MILLIONS OF VIEWS?
               </span>
             </h2>
             <p className="text-base sm:text-lg text-white/60 font-light max-w-xl mx-auto">
@@ -607,7 +611,7 @@ export function SectionShowcase() {
           <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4 relative z-10">
             <button
               onClick={() => alert("Redirecting to VantaClip Strategy Call Booking calendar...")}
-              className="w-full sm:w-auto px-8 py-4 rounded-full font-medium text-sm bg-black border border-purple-500/50 text-white shadow-[inset_0_0_20px_rgba(168,85,247,0.3),0_0_15px_rgba(168,85,247,0.2)] hover:shadow-[inset_0_0_30px_rgba(168,85,247,0.5),0_0_25px_rgba(168,85,247,0.4)] hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer flex items-center justify-center gap-2 backdrop-blur-md"
+              className="w-full sm:w-auto px-8 py-4 rounded-full font-medium text-sm text-white btn-complex-gradient hover:brightness-110 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer flex items-center justify-center gap-2"
             >
               Book Your Strategy Call
               <IconArrowRight className="w-4 h-4 text-purple-300" />

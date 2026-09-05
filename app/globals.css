@@ -166,3 +166,27 @@ html.lenis body {
     @apply font-sans;
   }
 }
+@layer utilities {
+  .btn-complex-gradient {
+    position: relative;
+    background: 
+      /* Grid */
+      linear-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+      /* Gradient */
+      linear-gradient(180deg, #b065f8 0%, #6822c7 100%);
+    background-size: 14px 14px, 14px 14px, 100% 100%;
+    background-position: center center;
+    box-shadow: 
+      /* Top thick white/pink highlight */
+      inset 0 3px 5px rgba(255, 255, 255, 0.7),
+      /* Bottom light pink reflection */
+      inset 0 -2px 5px rgba(255, 255, 255, 0.35),
+      /* Left/Right rim light */
+      inset 2px 0 4px rgba(255, 255, 255, 0.3),
+      inset -2px 0 4px rgba(255, 255, 255, 0.3),
+      /* Outer soft drop shadow */
+      0 8px 20px -4px rgba(0, 0, 0, 0.5);
+    border: none;
+  }
+}
