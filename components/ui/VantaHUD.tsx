@@ -24,8 +24,8 @@ export function VantaHUD() {
     if (p < 0.2) return "FORMATION_V_RIGHT (HERO)";
     if (p < 0.45) return "DISASSEMBLING (ATOMIZATION)";
     if (p < 0.65) return "3D_SWARM (CROSS-VIEWPORT)";
-    if (p < 0.85) return "CONVERGING (RE-ASSEMBLY)";
-    return "FORMATION_V_LEFT (ASSEMBLED)";
+    if (p < 0.85) return "AMBIENT_SWARM (BENTO)";
+    return "FULL_VIEW_SCATTER (FINAL)";
   };
 
   const scrollToMilestone = (target: number) => {
@@ -38,7 +38,7 @@ export function VantaHUD() {
 
   return (
     <div className="fixed bottom-6 left-6 z-50 pointer-events-auto select-none">
-      <div className="bg-[#0b0a13]/85 backdrop-blur-md border border-white/10 rounded-xl p-4 text-xs font-mono text-white/80 shadow-2xl shadow-black/80 max-w-xs space-y-3">
+      <div className="bg-[#0b0a13] border border-white/10 rounded-xl p-4 text-xs font-mono text-white/80 shadow-2xl shadow-black/80 max-w-xs space-y-3">
         <div className="flex items-center justify-between border-b border-white/10 pb-2">
           <span className="flex items-center gap-2 text-violet-400 font-semibold tracking-wider uppercase text-[11px]">
             <span className="relative flex h-2 w-2">

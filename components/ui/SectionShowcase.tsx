@@ -143,7 +143,7 @@ export function SectionShowcase() {
               <span className="text-transparent [-webkit-text-stroke:1.5px_rgba(255,255,255,0.8)] md:[-webkit-text-stroke:2px_rgba(255,255,255,0.8)]">
                 <WavyHeader text="TURN ONE" />
               </span>
-              <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full bg-white/5 backdrop-blur-md border border-white/20 flex items-center justify-center shrink-0 shadow-[inset_0_0_15px_rgba(255,255,255,0.1)]">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center shrink-0 shadow-[inset_0_0_15px_rgba(255,255,255,0.1)]">
                 <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,0.8)]"></div>
               </div>
             </div>
@@ -176,7 +176,7 @@ export function SectionShowcase() {
 
             <a
               href="#how-it-works"
-              className="px-7 py-3.5 rounded-full font-medium text-sm border border-white/10 bg-black/50 shadow-[inset_0_0_15px_rgba(255,255,255,0.05)] backdrop-blur-md text-white/80 hover:bg-white/5 hover:border-white/20 transition-all"
+              className="px-7 py-3.5 rounded-full font-medium text-sm border border-white/10 bg-[#0c0a16] shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)] text-white/80 hover:bg-white/5 hover:border-white/20 transition-all"
             >
               See How It Works
             </a>
@@ -187,8 +187,8 @@ export function SectionShowcase() {
       {/* 3. BUDGET ALERT & BENTO TRUST MATRIX */}
       <AnimatedSection id="trust" index={1} className="snap-panel flex flex-col justify-center px-5 sm:px-10 md:px-14 lg:px-20 py-12 sm:py-16 relative overflow-hidden">
         <div className="max-w-5xl mx-auto w-full space-y-2.5 sm:space-y-3 pointer-events-auto relative z-10 my-auto">
-          {/* 1. Top Campaign Budget Advisory Banner (Flat, Sleek) */}
-          <div className="py-2.5 px-4 sm:px-5 rounded-xl bg-[#0e0a1c]/80 border border-purple-500/30 backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.12),inset_0_-15px_25px_-10px_rgba(147,51,234,0.25)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 sm:gap-4">
+          {/* 1. Top Campaign Budget Advisory Banner (Flat, Sleek, Solid) */}
+          <div className="py-2.5 px-4 sm:px-5 rounded-xl bg-[#0e0a1c] border border-purple-500/30 shadow-[inset_0_1px_1px_rgba(255,255,255,0.12),inset_0_-15px_25px_-10px_rgba(147,51,234,0.25)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 sm:gap-4">
             <div className="flex items-center gap-3">
               <div className="w-7 h-7 rounded-lg bg-purple-500/20 border border-purple-400/40 flex items-center justify-center shrink-0 text-purple-300">
                 <IconInfo className="w-3.5 h-3.5" />
@@ -206,7 +206,7 @@ export function SectionShowcase() {
           {/* 2. 5-Card Asymmetric Bento Grid (Tight Gaps, Flat, Varied Gradients & Inner Shadows) */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3">
             {/* Bento Card 1 (Wide 2-Columns): Official Content Rewards Partner (Diagonal Gradient + Bottom Ambient Shadow) */}
-            <div className="md:col-span-2 lg:col-span-2 p-5 sm:p-7 rounded-2xl bg-gradient-to-br from-[#180f33]/85 via-[#0a0714]/90 to-[#140a26]/90 border border-purple-500/35 backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.14),inset_0_-40px_50px_-20px_rgba(147,51,234,0.35),0_10px_25px_-10px_rgba(0,0,0,0.6)] hover:border-purple-400/50 hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),inset_0_-45px_55px_-15px_rgba(168,85,247,0.45),0_15px_35px_-10px_rgba(0,0,0,0.8)] transition-all duration-400 flex flex-col justify-between group min-h-[175px] sm:min-h-[190px] relative overflow-hidden">
+            <div className="md:col-span-2 lg:col-span-2 p-5 sm:p-7 rounded-2xl bg-[#0a0714] bg-gradient-to-br from-[#180f33] via-[#0a0714] to-[#140a26] border border-purple-500/35 shadow-[inset_0_1px_1px_rgba(255,255,255,0.14),inset_0_-40px_50px_-20px_rgba(147,51,234,0.35),0_10px_25px_-10px_rgba(0,0,0,0.6)] hover:border-purple-400/50 hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),inset_0_-45px_55px_-15px_rgba(168,85,247,0.45),0_15px_35px_-10px_rgba(0,0,0,0.8)] transition-all duration-400 flex flex-col justify-between group min-h-[175px] sm:min-h-[190px] relative overflow-hidden">
               {/* Giant Watermark VantaClip Logo */}
               <img 
                 src="/logo.png" 
@@ -246,7 +246,7 @@ export function SectionShowcase() {
             </div>
 
             {/* Bento Card 2 (1-Column): Secure Campaign Management (Radial Glow + Top-Right Inset Shadow) */}
-            <div className="md:col-span-2 lg:col-span-1 p-5 sm:p-7 rounded-2xl bg-[radial-gradient(ellipse_at_top_right,rgba(168,85,247,0.22)_0%,rgba(10,8,18,0.92)_70%)] border border-white/10 backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.12),inset_20px_20px_45px_-15px_rgba(168,85,247,0.25),0_10px_25px_-10px_rgba(0,0,0,0.6)] hover:border-purple-400/50 hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),inset_25px_25px_50px_-10px_rgba(168,85,247,0.38),0_15px_35px_-10px_rgba(0,0,0,0.8)] transition-all duration-400 flex flex-col justify-between group min-h-[175px] sm:min-h-[190px] relative overflow-hidden">
+            <div className="md:col-span-2 lg:col-span-1 p-5 sm:p-7 rounded-2xl bg-[#0a0812] bg-[radial-gradient(ellipse_at_top_right,rgba(168,85,247,0.22)_0%,#0a0812_70%)] border border-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.12),inset_20px_20px_45px_-15px_rgba(168,85,247,0.25),0_10px_25px_-10px_rgba(0,0,0,0.6)] hover:border-purple-400/50 hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),inset_25px_25px_50px_-10px_rgba(168,85,247,0.38),0_15px_35px_-10px_rgba(0,0,0,0.8)] transition-all duration-400 flex flex-col justify-between group min-h-[175px] sm:min-h-[190px] relative overflow-hidden">
               {/* Giant Watermark Shield */}
               <IconShield className="w-28 h-28 text-purple-400/10 absolute -bottom-5 -right-5 pointer-events-none group-hover:scale-105 group-hover:text-purple-400/15 transition-all duration-500 select-none" />
 
@@ -275,7 +275,7 @@ export function SectionShowcase() {
             </div>
 
             {/* Bento Card 3 (1-Column): Transparent Reporting (Vertical Gradient + Bottom Inset Shadow) */}
-            <div className="col-span-1 p-5 sm:p-6 rounded-2xl bg-gradient-to-b from-[#0e0a1a]/90 via-[#07050d]/95 to-[#160b2c]/90 border border-white/10 backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),inset_0_-35px_40px_-15px_rgba(126,34,206,0.32),0_10px_25px_-10px_rgba(0,0,0,0.6)] hover:border-purple-400/50 hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.18),inset_0_-40px_50px_-12px_rgba(147,51,234,0.45),0_15px_35px_-10px_rgba(0,0,0,0.8)] transition-all duration-400 flex flex-col justify-between group min-h-[170px] sm:min-h-[185px] relative overflow-hidden">
+            <div className="col-span-1 p-5 sm:p-6 rounded-2xl bg-[#07050d] bg-gradient-to-b from-[#0e0a1a] via-[#07050d] to-[#160b2c] border border-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),inset_0_-35px_40px_-15px_rgba(126,34,206,0.32),0_10px_25px_-10px_rgba(0,0,0,0.6)] hover:border-purple-400/50 hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.18),inset_0_-40px_50px_-12px_rgba(147,51,234,0.45),0_15px_35px_-10px_rgba(0,0,0,0.8)] transition-all duration-400 flex flex-col justify-between group min-h-[170px] sm:min-h-[185px] relative overflow-hidden">
               <IconBarChart className="w-24 h-24 text-purple-400/10 absolute -bottom-4 -right-4 pointer-events-none group-hover:scale-105 group-hover:text-purple-400/15 transition-all duration-500 select-none" />
 
               <div className="flex items-center justify-between gap-3 relative z-10">
@@ -301,7 +301,7 @@ export function SectionShowcase() {
             </div>
 
             {/* Bento Card 4 (1-Column): Performance Based Campaigns (Angled Gradient + Bottom-Right Inset Glow) */}
-            <div className="col-span-1 p-5 sm:p-6 rounded-2xl bg-[linear-gradient(135deg,rgba(147,51,234,0.18)_0%,rgba(10,8,18,0.9)_55%,rgba(22,10,38,0.5)_100%)] border border-purple-500/25 backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.12),inset_-25px_-25px_45px_-15px_rgba(168,85,247,0.3),0_10px_25px_-10px_rgba(0,0,0,0.6)] hover:border-purple-400/50 hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),inset_-30px_-30px_50px_-10px_rgba(168,85,247,0.42),0_15px_35px_-10px_rgba(0,0,0,0.8)] transition-all duration-400 flex flex-col justify-between group min-h-[170px] sm:min-h-[185px] relative overflow-hidden">
+            <div className="col-span-1 p-5 sm:p-6 rounded-2xl bg-[#0a0812] bg-[linear-gradient(135deg,rgba(147,51,234,0.18)_0%,#0a0812_55%,#160a26_100%)] border border-purple-500/25 shadow-[inset_0_1px_1px_rgba(255,255,255,0.12),inset_-25px_-25px_45px_-15px_rgba(168,85,247,0.3),0_10px_25px_-10px_rgba(0,0,0,0.6)] hover:border-purple-400/50 hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),inset_-30px_-30px_50px_-10px_rgba(168,85,247,0.42),0_15px_35px_-10px_rgba(0,0,0,0.8)] transition-all duration-400 flex flex-col justify-between group min-h-[170px] sm:min-h-[185px] relative overflow-hidden">
               <IconTrendingUp className="w-24 h-24 text-purple-400/10 absolute -bottom-4 -right-4 pointer-events-none group-hover:scale-105 group-hover:text-purple-400/15 transition-all duration-500 select-none" />
 
               <div className="flex items-center justify-between gap-3 relative z-10">
@@ -327,7 +327,7 @@ export function SectionShowcase() {
             </div>
 
             {/* Bento Card 5 (1-Column): Professional Support (Bottom-Left Radial Glow + Inset Rim Vignette) */}
-            <div className="md:col-span-2 lg:col-span-1 p-5 sm:p-6 rounded-2xl bg-[radial-gradient(circle_at_bottom_left,rgba(168,85,247,0.2)_0%,rgba(10,8,18,0.92)_70%)] border border-white/10 backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),inset_25px_-25px_45px_-15px_rgba(147,51,234,0.3),0_10px_25px_-10px_rgba(0,0,0,0.6)] hover:border-purple-400/50 hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.18),inset_30px_-30px_50px_-10px_rgba(168,85,247,0.42),0_15px_35px_-10px_rgba(0,0,0,0.8)] transition-all duration-400 flex flex-col justify-between group min-h-[170px] sm:min-h-[185px] relative overflow-hidden">
+            <div className="md:col-span-2 lg:col-span-1 p-5 sm:p-6 rounded-2xl bg-[#0a0812] bg-[radial-gradient(circle_at_bottom_left,rgba(168,85,247,0.2)_0%,#0a0812_70%)] border border-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),inset_25px_-25px_45px_-15px_rgba(147,51,234,0.3),0_10px_25px_-10px_rgba(0,0,0,0.6)] hover:border-purple-400/50 hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.18),inset_30px_-30px_50px_-10px_rgba(168,85,247,0.42),0_15px_35px_-10px_rgba(0,0,0,0.8)] transition-all duration-400 flex flex-col justify-between group min-h-[170px] sm:min-h-[185px] relative overflow-hidden">
               <IconHeadphones className="w-24 h-24 text-purple-400/10 absolute -bottom-4 -right-4 pointer-events-none group-hover:scale-105 group-hover:text-purple-400/15 transition-all duration-500 select-none" />
 
               <div className="flex items-center justify-between gap-3 relative z-10">
@@ -382,19 +382,19 @@ export function SectionShowcase() {
               const isActive = activeStep === index;
               const themes = [
                 {
-                  bg: "bg-gradient-to-br from-[#180f33]/85 via-[#0a0714]/90 to-[#140a26]/90",
+                  bg: "bg-[#0a0714] bg-gradient-to-br from-[#180f33] via-[#0a0714] to-[#140a26]",
                   shadow: "shadow-[inset_0_1px_1px_rgba(255,255,255,0.14),inset_0_-35px_45px_-18px_rgba(147,51,234,0.32),0_10px_25px_-10px_rgba(0,0,0,0.6)]",
                 },
                 {
-                  bg: "bg-[radial-gradient(ellipse_at_top_right,rgba(168,85,247,0.2)_0%,rgba(10,8,18,0.92)_70%)]",
+                  bg: "bg-[#0a0812] bg-[radial-gradient(ellipse_at_top_right,rgba(168,85,247,0.2)_0%,#0a0812_70%)]",
                   shadow: "shadow-[inset_0_1px_1px_rgba(255,255,255,0.12),inset_20px_20px_40px_-15px_rgba(168,85,247,0.25),0_10px_25px_-10px_rgba(0,0,0,0.6)]",
                 },
                 {
-                  bg: "bg-[linear-gradient(135deg,rgba(147,51,234,0.18)_0%,rgba(10,8,18,0.9)_55%,rgba(22,10,38,0.5)_100%)]",
+                  bg: "bg-[#0a0812] bg-[linear-gradient(135deg,rgba(147,51,234,0.18)_0%,#0a0812_55%,#160a26_100%)]",
                   shadow: "shadow-[inset_0_1px_1px_rgba(255,255,255,0.12),inset_-25px_-25px_40px_-15px_rgba(168,85,247,0.28),0_10px_25px_-10px_rgba(0,0,0,0.6)]",
                 },
                 {
-                  bg: "bg-[radial-gradient(circle_at_bottom_left,rgba(168,85,247,0.2)_0%,rgba(10,8,18,0.92)_70%)]",
+                  bg: "bg-[#0a0812] bg-[radial-gradient(circle_at_bottom_left,rgba(168,85,247,0.2)_0%,#0a0812_70%)]",
                   shadow: "shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),inset_25px_-25px_40px_-15px_rgba(147,51,234,0.28),0_10px_25px_-10px_rgba(0,0,0,0.6)]",
                 },
               ];
@@ -404,7 +404,7 @@ export function SectionShowcase() {
                 <div
                   key={index}
                   onClick={() => setActiveStep(index)}
-                  className={`p-5 sm:p-6 rounded-2xl border transition-all duration-300 cursor-pointer flex flex-col justify-between group backdrop-blur-xl relative overflow-hidden ${theme.bg} ${theme.shadow} ${
+                  className={`p-5 sm:p-6 rounded-2xl border transition-all duration-300 cursor-pointer flex flex-col justify-between group relative overflow-hidden ${theme.bg} ${theme.shadow} ${
                     isActive
                       ? "border-purple-400/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),inset_0_-45px_50px_-15px_rgba(168,85,247,0.45),0_15px_35px_-10px_rgba(0,0,0,0.8)] scale-[1.02]"
                       : "border-white/10 hover:border-purple-400/40 hover:scale-[1.01]"
@@ -470,7 +470,7 @@ export function SectionShowcase() {
           {/* Comparative Cards in Bento Style */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 pointer-events-auto">
             {/* Card 1: Traditional Advertising (Dark Flat Matte Bento) */}
-            <div className="p-6 sm:p-8 rounded-2xl border border-white/10 bg-gradient-to-b from-[#100c1c]/85 via-[#07050d]/90 to-[#0d0918]/85 backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.08),inset_0_-30px_35px_-15px_rgba(0,0,0,0.6),0_10px_25px_-10px_rgba(0,0,0,0.6)] space-y-6 hover:border-white/20 transition-all duration-300">
+            <div className="p-6 sm:p-8 rounded-2xl border border-white/10 bg-[#07050d] bg-gradient-to-b from-[#100c1c] via-[#07050d] to-[#0d0918] shadow-[inset_0_1px_1px_rgba(255,255,255,0.08),inset_0_-30px_35px_-15px_rgba(0,0,0,0.6),0_10px_25px_-10px_rgba(0,0,0,0.6)] space-y-6 hover:border-white/20 transition-all duration-300">
               <div className="space-y-1.5">
                 <span className="text-xs font-mono text-white/40 uppercase tracking-widest">
                   Old Paradigm
@@ -510,7 +510,7 @@ export function SectionShowcase() {
             </div>
 
             {/* Card 2: Creator-Driven Campaigns (High Velocity Bento with Purple Inner Glow) */}
-            <div className="p-6 sm:p-8 rounded-2xl border border-purple-500/40 bg-gradient-to-br from-[#1c1038]/90 via-[#0b0816]/95 to-[#160b2e]/90 backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.18),inset_0_-40px_50px_-20px_rgba(147,51,234,0.4),0_15px_35px_-10px_rgba(0,0,0,0.8)] space-y-6 hover:border-purple-400/60 transition-all duration-300 relative overflow-hidden group">
+            <div className="p-6 sm:p-8 rounded-2xl border border-purple-500/40 bg-[#0b0816] bg-gradient-to-br from-[#1c1038] via-[#0b0816] to-[#160b2e] shadow-[inset_0_1px_1px_rgba(255,255,255,0.18),inset_0_-40px_50px_-20px_rgba(147,51,234,0.4),0_15px_35px_-10px_rgba(0,0,0,0.8)] space-y-6 hover:border-purple-400/60 transition-all duration-300 relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-36 h-36 bg-purple-500/15 rounded-full blur-3xl pointer-events-none" />
 
               <div className="space-y-1.5 relative z-10">
@@ -588,7 +588,7 @@ export function SectionShowcase() {
             }}
           >
             {/* Bento Card 1: Access to a Creator Network (Spans 2 cols on lg) */}
-            <div className="lg:col-span-2 p-6 sm:p-7 rounded-2xl border border-purple-500/35 bg-gradient-to-br from-[#180f33]/85 via-[#0a0714]/90 to-[#140a26]/90 backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.14),inset_0_-40px_50px_-20px_rgba(147,51,234,0.35),0_10px_25px_-10px_rgba(0,0,0,0.6)] flex flex-col justify-between space-y-5 hover:border-purple-400/50 transition-all duration-300 group overflow-hidden relative">
+            <div className="lg:col-span-2 p-6 sm:p-7 rounded-2xl border border-purple-500/35 bg-[#0a0714] bg-gradient-to-br from-[#180f33] via-[#0a0714] to-[#140a26] shadow-[inset_0_1px_1px_rgba(255,255,255,0.14),inset_0_-40px_50px_-20px_rgba(147,51,234,0.35),0_10px_25px_-10px_rgba(0,0,0,0.6)] flex flex-col justify-between space-y-5 hover:border-purple-400/50 transition-all duration-300 group overflow-hidden relative">
               <div className="space-y-2.5 z-10">
                 <div className="w-10 h-10 rounded-xl bg-purple-600/20 border border-purple-500/35 flex items-center justify-center text-purple-300 group-hover:scale-105 transition-transform">
                   <IconUsers className="w-5 h-5" />
@@ -631,7 +631,7 @@ export function SectionShowcase() {
             </div>
 
             {/* Bento Card 2: End-to-End Campaign Management */}
-            <div className="p-6 sm:p-7 rounded-2xl border border-white/10 bg-[radial-gradient(ellipse_at_top_right,rgba(168,85,247,0.22)_0%,rgba(10,8,18,0.92)_70%)] backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.12),inset_20px_20px_45px_-15px_rgba(168,85,247,0.25),0_10px_25px_-10px_rgba(0,0,0,0.6)] flex flex-col justify-between space-y-5 hover:border-purple-400/50 transition-all duration-300 group">
+            <div className="p-6 sm:p-7 rounded-2xl border border-white/10 bg-[#0a0812] bg-[radial-gradient(ellipse_at_top_right,rgba(168,85,247,0.22)_0%,#0a0812_70%)] shadow-[inset_0_1px_1px_rgba(255,255,255,0.12),inset_20px_20px_45px_-15px_rgba(168,85,247,0.25),0_10px_25px_-10px_rgba(0,0,0,0.6)] flex flex-col justify-between space-y-5 hover:border-purple-400/50 transition-all duration-300 group">
               <div className="space-y-2.5">
                 <div className="w-10 h-10 rounded-xl bg-purple-600/20 border border-purple-500/35 flex items-center justify-center text-purple-300 group-hover:scale-105 transition-transform">
                   <IconZap className="w-5 h-5" />
@@ -658,7 +658,7 @@ export function SectionShowcase() {
             </div>
 
             {/* Bento Card 3: Short-Form Content Expertise */}
-            <div className="p-6 sm:p-7 rounded-2xl border border-white/10 bg-gradient-to-b from-[#0e0a1a]/90 via-[#07050d]/95 to-[#160b2c]/90 backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),inset_0_-35px_40px_-15px_rgba(126,34,206,0.32),0_10px_25px_-10px_rgba(0,0,0,0.6)] flex flex-col justify-between space-y-5 hover:border-purple-400/50 transition-all duration-300 group">
+            <div className="p-6 sm:p-7 rounded-2xl border border-white/10 bg-[#07050d] bg-gradient-to-b from-[#0e0a1a] via-[#07050d] to-[#160b2c] shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),inset_0_-35px_40px_-15px_rgba(126,34,206,0.32),0_10px_25px_-10px_rgba(0,0,0,0.6)] flex flex-col justify-between space-y-5 hover:border-purple-400/50 transition-all duration-300 group">
               <div className="space-y-2.5">
                 <div className="w-10 h-10 rounded-xl bg-purple-600/20 border border-purple-500/35 flex items-center justify-center text-purple-300 group-hover:scale-105 transition-transform">
                   <IconTrendingUp className="w-5 h-5" />
@@ -691,7 +691,7 @@ export function SectionShowcase() {
             </div>
 
             {/* Bento Card 4: Transparent Reporting */}
-            <div className="p-6 sm:p-7 rounded-2xl border border-purple-500/25 bg-[linear-gradient(135deg,rgba(147,51,234,0.18)_0%,rgba(10,8,18,0.9)_55%,rgba(22,10,38,0.5)_100%)] backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.12),inset_-25px_-25px_45px_-15px_rgba(168,85,247,0.3),0_10px_25px_-10px_rgba(0,0,0,0.6)] flex flex-col justify-between space-y-5 hover:border-purple-400/50 transition-all duration-300 group">
+            <div className="p-6 sm:p-7 rounded-2xl border border-purple-500/25 bg-[#0a0812] bg-[linear-gradient(135deg,rgba(147,51,234,0.18)_0%,#0a0812_55%,#160a26_100%)] shadow-[inset_0_1px_1px_rgba(255,255,255,0.12),inset_-25px_-25px_45px_-15px_rgba(168,85,247,0.3),0_10px_25px_-10px_rgba(0,0,0,0.6)] flex flex-col justify-between space-y-5 hover:border-purple-400/50 transition-all duration-300 group">
               <div className="space-y-2.5">
                 <div className="w-10 h-10 rounded-xl bg-purple-600/20 border border-purple-500/35 flex items-center justify-center text-purple-300 group-hover:scale-105 transition-transform">
                   <IconShield className="w-5 h-5" />
@@ -714,7 +714,7 @@ export function SectionShowcase() {
             </div>
 
             {/* Bento Card 5: Professional Execution (Spans 2 cols on lg) */}
-            <div className="lg:col-span-2 p-6 sm:p-7 rounded-2xl border border-white/10 bg-[radial-gradient(circle_at_bottom_left,rgba(168,85,247,0.2)_0%,rgba(10,8,18,0.92)_70%)] backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),inset_25px_-25px_45px_-15px_rgba(147,51,234,0.3),0_10px_25px_-10px_rgba(0,0,0,0.6)] flex flex-col justify-between space-y-5 hover:border-purple-400/50 transition-all duration-300 group">
+            <div className="lg:col-span-2 p-6 sm:p-7 rounded-2xl border border-white/10 bg-[#0a0812] bg-[radial-gradient(circle_at_bottom_left,rgba(168,85,247,0.2)_0%,#0a0812_70%)] shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),inset_25px_-25px_45px_-15px_rgba(147,51,234,0.3),0_10px_25px_-10px_rgba(0,0,0,0.6)] flex flex-col justify-between space-y-5 hover:border-purple-400/50 transition-all duration-300 group">
               <div className="space-y-2.5">
                 <div className="w-10 h-10 rounded-xl bg-purple-600/20 border border-purple-500/35 flex items-center justify-center text-purple-300 group-hover:scale-105 transition-transform">
                   <IconBarChart className="w-5 h-5" />
@@ -747,7 +747,7 @@ export function SectionShowcase() {
             </div>
 
             {/* Bento Card 6: Official Content Rewards Partner (Full width bottom highlight) */}
-            <div className="lg:col-span-3 p-5 sm:p-6 rounded-2xl border border-purple-500/40 bg-gradient-to-r from-[#180f33]/90 via-[#0c0918]/95 to-[#180f33]/90 backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.15),inset_0_-25px_35px_-15px_rgba(147,51,234,0.3),0_12px_25px_-10px_rgba(0,0,0,0.7)] flex flex-col sm:flex-row items-center justify-between gap-4 hover:border-purple-400/60 transition-all duration-300 group">
+            <div className="lg:col-span-3 p-5 sm:p-6 rounded-2xl border border-purple-500/40 bg-[#0c0918] bg-gradient-to-r from-[#180f33] via-[#0c0918] to-[#180f33] shadow-[inset_0_1px_1px_rgba(255,255,255,0.15),inset_0_-25px_35px_-15px_rgba(147,51,234,0.3),0_12px_25px_-10px_rgba(0,0,0,0.7)] flex flex-col sm:flex-row items-center justify-between gap-4 hover:border-purple-400/60 transition-all duration-300 group">
               <div className="flex items-center gap-3.5">
                 <div className="w-11 h-11 rounded-xl bg-purple-600/20 border border-purple-500/40 flex items-center justify-center text-purple-300 shrink-0 group-hover:scale-105 transition-transform shadow-md shadow-purple-900/30">
                   <IconHandshake className="w-5 h-5" />
@@ -774,7 +774,7 @@ export function SectionShowcase() {
 
       {/* 7. HIGH-CONVERTING CLOSING STRATEGY CALL / CTA SECTION WITH INTEGRATED FOOTER */}
       <AnimatedSection id="booking" index={5} className="snap-panel px-6 md:px-14 lg:px-20 pt-20 pb-8 flex flex-col justify-between relative">
-        <div className="max-w-4xl mx-auto my-auto w-full rounded-2xl border border-purple-500/35 bg-gradient-to-b from-[#180f33]/90 via-[#0b0816]/95 to-[#06040c] p-6 sm:p-12 text-center space-y-6 backdrop-blur-2xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.16),inset_0_-40px_60px_-20px_rgba(147,51,234,0.35),0_20px_45px_-15px_rgba(0,0,0,0.85)] pointer-events-auto relative z-10 overflow-hidden">
+        <div className="max-w-4xl mx-auto my-auto w-full rounded-2xl border border-purple-500/35 bg-[#06040c] bg-gradient-to-b from-[#180f33] via-[#0b0816] to-[#06040c] p-6 sm:p-12 text-center space-y-6 shadow-[inset_0_1px_1px_rgba(255,255,255,0.16),inset_0_-40px_60px_-20px_rgba(147,51,234,0.35),0_20px_45px_-15px_rgba(0,0,0,0.85)] pointer-events-auto relative z-10 overflow-hidden">
           <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl pointer-events-none" />
 
           <div className="space-y-4 relative z-10">

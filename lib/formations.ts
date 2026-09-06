@@ -184,6 +184,62 @@ export function generateScatterFormation(
 }
 
 /**
+ * Generates coordinate states for the final section scatter formation.
+ * Cubes scatter out across the full viewport (left, right, top, bottom, depth)
+ * framing the entire view of the website rather than clustering into a V.
+ */
+export const FINAL_SCATTER_POSITIONS: Vector3Tuple[] = [
+  [5.0, 2.6, -0.5],   // 0: Far Top-Right
+  [4.4, 1.2, 0.5],    // 1: Mid-Right upper
+  [4.7, -0.7, -0.3],  // 2: Mid-Right lower
+  [5.1, -2.5, 0.2],   // 3: Far Bottom-Right
+  [-5.1, 2.7, -0.4],  // 4: Far Top-Left
+  [-4.5, 1.3, 0.4],   // 5: Mid-Left upper
+  [-4.8, -0.6, -0.2], // 6: Mid-Left lower
+  [-5.0, -2.4, 0.3],  // 7: Far Bottom-Left
+  [-2.4, 3.2, -1.0],  // 8: Top Center-Left
+  [2.3, 3.1, -0.9],   // 9: Top Center-Right
+  [-2.1, -3.2, -0.7], // 10: Bottom Center-Left
+  [2.0, -3.1, -0.8],  // 11: Bottom Center-Right
+  [0.0, 0.5, -3.0],   // 12: Deep Center Parallax
+];
+
+export const FINAL_SCATTER_ROTATIONS: Vector3Tuple[] = [
+  [0.4, -0.6, 0.2],
+  [-0.3, 0.8, -0.5],
+  [0.6, 0.4, 0.7],
+  [-0.5, -0.3, 0.4],
+  [0.5, 0.7, -0.3],
+  [-0.4, -0.6, 0.5],
+  [0.7, -0.4, -0.6],
+  [-0.3, 0.5, 0.2],
+  [0.2, -0.3, 0.8],
+  [-0.2, 0.5, -0.6],
+  [0.5, -0.2, 0.3],
+  [-0.4, 0.3, -0.4],
+  [0.6, 0.8, 0.2],
+];
+
+export const FINAL_SCATTER_SCALES: number[] = [
+  0.92, 1.05, 0.95, 0.88, 0.92, 1.05, 0.95, 0.88, 0.78, 0.78, 0.75, 0.75, 0.68,
+];
+
+export function generateFinalScatterFormation(count: number): CubeTransformState[] {
+  const results: CubeTransformState[] = [];
+  for (let i = 0; i < count; i++) {
+    const pos = FINAL_SCATTER_POSITIONS[i % FINAL_SCATTER_POSITIONS.length];
+    const rot = FINAL_SCATTER_ROTATIONS[i % FINAL_SCATTER_ROTATIONS.length];
+    const scale = FINAL_SCATTER_SCALES[i % FINAL_SCATTER_SCALES.length];
+    results.push({
+      position: [pos[0], pos[1], pos[2]],
+      rotation: [rot[0], rot[1], rot[2]],
+      scale,
+    });
+  }
+  return results;
+}
+
+/**
  * Builds the complete dataset of 13 cubes with stable identities and non-overlapping targets.
  */
 export function buildCubeDataset(
@@ -193,6 +249,7 @@ export function buildCubeDataset(
 ): CubeData[] {
   const rightStates = generateVFormation("right", { cubeCount: count, ...formationOverride });
   const scatterStates = generateScatterFormation(count, scatterOverride);
+  const finalScatterStates = generateFinalScatterFormation(count);
   const leftStates = generateVFormation("left", { cubeCount: count, ...formationOverride });
 
   const dataset: CubeData[] = [];
@@ -200,6 +257,7 @@ export function buildCubeDataset(
   for (let i = 0; i < count; i++) {
     const right = rightStates[i];
     const scatter = scatterStates[i];
+    const finalScatter = finalScatterStates[i];
     const left = leftStates[i];
 
     const phase = (i / count) * Math.PI * 2;
@@ -215,6 +273,7 @@ export function buildCubeDataset(
         formationRight: right,
         scatter: scatter,
         formationLeft: left,
+        finalScatter: finalScatter,
       },
       phase,
       disturbanceFactor,

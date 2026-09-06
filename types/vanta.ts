@@ -15,6 +15,7 @@ export interface CubeData {
     formationRight: CubeTransformState;
     scatter: CubeTransformState;
     formationLeft: CubeTransformState;
+    finalScatter: CubeTransformState;
   };
   phase: number;
   disturbanceFactor: number;
