@@ -91,8 +91,26 @@ export function CubeField({ cubes, isReducedPower = false }: CubeFieldProps) {
       hasPointerIntersection = !!raycaster.ray.intersectPlane(planeZ, intersectionPoint);
     }
 
-    const disturbanceRadius = 2.8 * responsiveScale;
-    const maxPushDistance = 1.05 * responsiveScale;
+    const isMobile = viewport.width < 7;
+    const heroProgressNorm = Math.min(1, currentProgress.current / 0.18);
+    // Smooth hermite curve (derivative = 0 at endpoints for silky transitions)
+    const heroEase = isMobile
+      ? 1 - heroProgressNorm * heroProgressNorm * (3 - 2 * heroProgressNorm)
+      : 0;
+
+    const mobileXRatio = isMobile ? Math.min(1.0, (viewport.width / 12.0) * 1.5) : 1.0;
+    // On mobile hero, slightly refine scale to ~0.40 so the crest fits comfortably in the upper third
+    const heroScaleFactor = isMobile ? 1.0 - 0.22 * heroEase : 1.0;
+    const activeScale = responsiveScale * heroScaleFactor;
+    const heroCenterOffset = heroEase * 3.4;
+    // Hero Crest horizontal placement on mobile:
+    // Shifted to the right (x ~ +0.42) to balance the left-aligned headline
+    const mobileHeroXShift = heroEase * 0.42;
+    // Elevate the V-formation into the upper void (y ~ +2.15) above the headline
+    const mobileHeroYBoost = heroEase * 2.15;
+
+    const disturbanceRadius = 2.8 * activeScale;
+    const maxPushDistance = 1.05 * activeScale;
 
     // Update each cube's position, rotation, and pointer disturbance
     for (let i = 0; i < cubes.length; i++) {
@@ -114,21 +132,15 @@ export function CubeField({ cubes, isReducedPower = false }: CubeFieldProps) {
       let baseY = baseTransform.position[1];
       let baseZ = baseTransform.position[2];
 
-      if (viewport.width < 7) {
+      if (isMobile) {
         // MOBILE VIEWPORT ADAPTATIONS:
-        // 1. Center the Hero V-formation horizontally at x = 0 (instead of desktop offset x = +3.4)
-        // Smoothly fade out the centering offset as the user scrolls into section 1 (p: 0 -> 0.18)
-        const heroCenterOffset = (1 - Math.min(1, currentProgress.current / 0.18)) * 3.4;
+        // 1. Position Hero V-formation horizontally, shifted gracefully to the right
         const uncenteredX = baseTransform.position[0] - heroCenterOffset;
+        baseX = uncenteredX * activeScale * mobileXRatio + mobileHeroXShift;
 
-        // 2. Scale scatter coordinates horizontally so cubes stay framed within mobile screen width
-        const mobileXRatio = Math.min(1.0, (viewport.width / 12.0) * 1.5);
-        baseX = uncenteredX * responsiveScale * mobileXRatio;
-
-        // 3. Lower the hero formation slightly so it sits beautifully below the headline text
-        const heroYOffset = (1 - Math.min(1, currentProgress.current / 0.18)) * -0.5;
-        baseY = (baseTransform.position[1] + heroYOffset) * responsiveScale;
-        baseZ = baseTransform.position[2] * responsiveScale;
+        // 2. Hero Crest: elevate the V-formation into the upper void above the headline
+        baseY = baseTransform.position[1] * activeScale + mobileHeroYBoost;
+        baseZ = baseTransform.position[2] * activeScale;
       } else {
         // DESKTOP & TABLET: Standard scaling
         baseX = baseTransform.position[0] * responsiveScale;
@@ -206,7 +218,7 @@ export function CubeField({ cubes, isReducedPower = false }: CubeFieldProps) {
         baseTransform.rotation[2] + distState.currentRot[2]
       );
 
-      const targetScale = Math.max(0, baseTransform.scale * responsiveScale);
+      const targetScale = Math.max(0, baseTransform.scale * (isMobile ? activeScale : responsiveScale));
       mesh.scale.set(targetScale, targetScale, targetScale);
       mesh.visible = targetScale > 0.001;
     }

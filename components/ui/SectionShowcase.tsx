@@ -70,7 +70,7 @@ export function SectionShowcase() {
   return (
     <div className="relative w-full text-white pointer-events-none select-none">
       {/* 2. HERO SECTION */}
-      <AnimatedSection id="hero" index={0} className="snap-panel flex flex-col justify-center px-5 sm:px-10 md:px-14 lg:px-20 pt-24 sm:pt-28 pb-16 relative overflow-hidden">
+      <AnimatedSection id="hero" index={0} className="snap-panel flex flex-col justify-center px-5 sm:px-10 md:px-14 lg:px-20 pt-32 sm:pt-28 pb-12 sm:pb-16 relative overflow-hidden">
         {/* React Bits DarkVeil Ambient Kinetic Shader Background */}
         <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
           <DarkVeil
@@ -84,10 +84,10 @@ export function SectionShowcase() {
           <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-[#050508] pointer-events-none" />
         </div>
 
-        <div className="max-w-3xl pointer-events-auto space-y-6 relative z-10">
+        <div className="max-w-3xl pointer-events-auto space-y-5 sm:space-y-6 relative z-10">
           {/* Headline */}
           <h1 
-            className="flex flex-col text-[2.25rem] sm:text-[3rem] md:text-[3.75rem] lg:text-[4.5rem] uppercase leading-[0.85] tracking-tight mt-3 mb-5 text-white drop-shadow-2xl" 
+            className="flex flex-col text-[2.25rem] sm:text-[3rem] md:text-[3.75rem] lg:text-[4.5rem] uppercase leading-[0.85] tracking-tight mt-2 sm:mt-3 mb-4 sm:mb-5 text-white drop-shadow-2xl" 
             style={{ fontFamily: "'Bebas Neue', sans-serif" }}
           >
             <div className="flex items-center gap-3 sm:gap-4 md:gap-5">
