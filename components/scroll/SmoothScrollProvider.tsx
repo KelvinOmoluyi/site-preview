@@ -131,7 +131,13 @@ export function SmoothScrollProvider({ children, vantaScene }: SmoothScrollProvi
     };
 
     const onTouchMove = (e: TouchEvent) => {
-      if (e.cancelable) e.preventDefault();
+      const currentY = e.touches[0].clientY;
+      const currentX = e.touches[0].clientX;
+      const dY = Math.abs(currentY - touchStartY);
+      const dX = Math.abs(currentX - touchStartX);
+      if (dY > dX && e.cancelable) {
+        e.preventDefault();
+      }
     };
 
     const onTouchEnd = (e: TouchEvent) => {
