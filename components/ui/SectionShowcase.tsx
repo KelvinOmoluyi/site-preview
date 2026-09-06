@@ -23,19 +23,7 @@ import { WavyHeader, GatheringText, AnimatedSection, FadeInUp } from "./TextAnim
 export function SectionShowcase() {
   const [activeStep, setActiveStep] = useState(0);
   const [bentoMousePos, setBentoMousePos] = useState({ x: 0, y: 0 });
-  const [isScrolled, setIsScrolled] = useState(false);
   const bentoGridRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleSectionChange = (e: Event) => {
-      const customEvent = e as CustomEvent<{ index: number; isScrolled: boolean }>;
-      if (customEvent.detail) {
-        setIsScrolled(customEvent.detail.isScrolled);
-      }
-    };
-    window.addEventListener("vanta-section-change", handleSectionChange);
-    return () => window.removeEventListener("vanta-section-change", handleSectionChange);
-  }, []);
 
 
   const handleBentoMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -81,43 +69,6 @@ export function SectionShowcase() {
 
   return (
     <div className="relative w-full text-white pointer-events-none select-none">
-      {/* 1. TOP NAVIGATION */}
-      <header
-        className={`fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-4 flex items-center justify-between pointer-events-auto transition-[background-color,backdrop-filter,box-shadow] duration-300 ${
-          isScrolled
-            ? "bg-black/60 backdrop-blur-xl shadow-lg shadow-black/40"
-            : "bg-transparent backdrop-blur-none"
-        }`}
-      >
-        <div className="flex items-center">
-          <img src="/logo.png" alt="VantaClip" className="h-8 md:h-10 w-auto object-contain drop-shadow-md" />
-        </div>
-
-        {/* Desktop Nav Links */}
-        <nav className="hidden md:flex items-center gap-8 text-xs font-mono uppercase tracking-widest text-white/60">
-          <a href="#comparison" className="hover:text-violet-300 transition-colors">
-            Why Us
-          </a>
-          <a href="#why-brands-stay" className="hover:text-violet-300 transition-colors">
-            Network
-          </a>
-          <a href="#booking" className="hover:text-violet-300 transition-colors">
-            Pricing
-          </a>
-        </nav>
-
-        {/* CTA Button */}
-        <div className="flex items-center gap-3">
-          <a
-            href="#booking"
-            className="px-5 py-2.5 rounded-full font-medium text-xs text-white btn-complex-gradient hover:brightness-110 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-1.5"
-          >
-            Book Strategy Call
-            <IconArrowRight className="w-3.5 h-3.5 text-purple-300" />
-          </a>
-        </div>
-      </header>
-
       {/* 2. HERO SECTION */}
       <AnimatedSection id="hero" index={0} className="snap-panel flex flex-col justify-center px-6 md:px-14 lg:px-20 pt-28 pb-16 relative overflow-hidden">
         {/* React Bits DarkVeil Ambient Kinetic Shader Background */}
@@ -193,9 +144,11 @@ export function SectionShowcase() {
               <div className="w-7 h-7 rounded-lg bg-purple-500/20 border border-purple-400/40 flex items-center justify-center shrink-0 text-purple-300">
                 <IconInfo className="w-3.5 h-3.5" />
               </div>
-              <p className="text-xs sm:text-sm text-white/90 font-normal leading-snug">
-                Campaigns require a minimum <strong className="text-white font-semibold underline decoration-purple-400/60 underline-offset-4">$1,000 campaign budget</strong> plus a separate VantaClip setup and management fee.
-              </p>
+              <GatheringText
+                text="Campaigns require a minimum **$1,000 campaign budget** plus a separate VantaClip setup and management fee."
+                className="text-xs sm:text-sm text-white/90 font-normal leading-snug"
+                delayOffset={0.05}
+              />
             </div>
             <div className="flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-purple-500/15 border border-purple-400/30 text-[10px] font-mono text-purple-200 tracking-wider shrink-0 self-end sm:self-auto">
               <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
@@ -237,11 +190,16 @@ export function SectionShowcase() {
                   className="text-2xl sm:text-3xl lg:text-4xl uppercase tracking-tight text-white leading-[0.9]"
                   style={{ fontFamily: "'Bebas Neue', sans-serif" }}
                 >
-                  <span className="text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.75)]">OFFICIAL</span> CONTENT REWARDS PARTNER
+                  <span className="text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.75)]">
+                    <WavyHeader text="OFFICIAL" delayOffset={0.05} />
+                  </span>{" "}
+                  <WavyHeader text="CONTENT REWARDS PARTNER" delayOffset={0.18} />
                 </h3>
-                <p className="text-xs sm:text-sm text-white/70 font-light max-w-lg leading-relaxed">
-                  Direct platform integration granting priority algorithmic indexing and high-volume creator distribution.
-                </p>
+                <GatheringText
+                  text="Direct platform integration granting priority algorithmic indexing and high-volume creator distribution."
+                  className="text-xs sm:text-sm text-white/70 font-light max-w-lg leading-relaxed"
+                  delayOffset={0.25}
+                />
               </div>
             </div>
 
@@ -266,11 +224,16 @@ export function SectionShowcase() {
                   className="text-2xl sm:text-3xl uppercase tracking-tight text-white leading-[0.9]"
                   style={{ fontFamily: "'Bebas Neue', sans-serif" }}
                 >
-                  <span className="text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.75)]">SECURE</span> MANAGEMENT
+                  <span className="text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.75)]">
+                    <WavyHeader text="SECURE" delayOffset={0.1} />
+                  </span>{" "}
+                  <WavyHeader text="MANAGEMENT" delayOffset={0.22} />
                 </h3>
-                <p className="text-xs sm:text-sm text-white/70 font-light leading-relaxed">
-                  Rigorous contract guarantees, verified deliverables, and creator escrow protection.
-                </p>
+                <GatheringText
+                  text="Rigorous contract guarantees, verified deliverables, and creator escrow protection."
+                  className="text-xs sm:text-sm text-white/70 font-light leading-relaxed"
+                  delayOffset={0.28}
+                />
               </div>
             </div>
 
@@ -292,11 +255,16 @@ export function SectionShowcase() {
                   className="text-xl sm:text-2xl uppercase tracking-tight text-white leading-[0.9]"
                   style={{ fontFamily: "'Bebas Neue', sans-serif" }}
                 >
-                  <span className="text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.75)]">REAL-TIME</span> REPORTING
+                  <span className="text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.75)]">
+                    <WavyHeader text="REAL-TIME" delayOffset={0.15} />
+                  </span>{" "}
+                  <WavyHeader text="REPORTING" delayOffset={0.26} />
                 </h3>
-                <p className="text-xs text-white/70 font-light leading-relaxed">
-                  Live dashboard tracking views, likes, and organic reach with zero fabricated metrics.
-                </p>
+                <GatheringText
+                  text="Live dashboard tracking views, likes, and organic reach with zero fabricated metrics."
+                  className="text-xs text-white/70 font-light leading-relaxed"
+                  delayOffset={0.32}
+                />
               </div>
             </div>
 
@@ -318,11 +286,16 @@ export function SectionShowcase() {
                   className="text-xl sm:text-2xl uppercase tracking-tight text-white leading-[0.9]"
                   style={{ fontFamily: "'Bebas Neue', sans-serif" }}
                 >
-                  <span className="text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.75)]">VIRAL</span> VELOCITY
+                  <span className="text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.75)]">
+                    <WavyHeader text="VIRAL" delayOffset={0.18} />
+                  </span>{" "}
+                  <WavyHeader text="VELOCITY" delayOffset={0.28} />
                 </h3>
-                <p className="text-xs text-white/70 font-light leading-relaxed">
-                  Engineered hooking frameworks ensuring maximum audience retention and conversion.
-                </p>
+                <GatheringText
+                  text="Engineered hooking frameworks ensuring maximum audience retention and conversion."
+                  className="text-xs text-white/70 font-light leading-relaxed"
+                  delayOffset={0.35}
+                />
               </div>
             </div>
 
@@ -344,11 +317,16 @@ export function SectionShowcase() {
                   className="text-xl sm:text-2xl uppercase tracking-tight text-white leading-[0.9]"
                   style={{ fontFamily: "'Bebas Neue', sans-serif" }}
                 >
-                  <span className="text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.75)]">24/7</span> STRATEGIST
+                  <span className="text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.75)]">
+                    <WavyHeader text="24/7" delayOffset={0.22} />
+                  </span>{" "}
+                  <WavyHeader text="STRATEGIST" delayOffset={0.3} />
                 </h3>
-                <p className="text-xs text-white/70 font-light leading-relaxed">
-                  Dedicated campaign managers and around-the-clock creator network operations.
-                </p>
+                <GatheringText
+                  text="Dedicated campaign managers and around-the-clock creator network operations."
+                  className="text-xs text-white/70 font-light leading-relaxed"
+                  delayOffset={0.38}
+                />
               </div>
             </div>
           </div>

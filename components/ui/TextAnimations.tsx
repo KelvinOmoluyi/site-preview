@@ -131,14 +131,31 @@ export function GatheringText({
 }) {
   const context = useSectionAnimation();
   const isTriggered = context ? context.isTriggered : true;
-  const words = text.split(" ");
+  
+  // Parse words and detect if words are wrapped in ** ... **
+  const rawWords = text.split(" ");
+  let boldActive = false;
+  const words = rawWords.map((raw) => {
+    let word = raw;
+    let bold = boldActive;
+    if (word.startsWith("**")) {
+      bold = true;
+      boldActive = true;
+      word = word.slice(2);
+    }
+    if (word.endsWith("**")) {
+      word = word.slice(0, -2);
+      boldActive = false;
+    }
+    return { word, bold };
+  });
   
   return (
     <p className={`${className} flex flex-wrap`}>
-      {words.map((word, i) => (
+      {words.map(({ word, bold }, i) => (
         <motion.span
           key={i}
-          className="inline-block mr-[0.26em] last:mr-0"
+          className={`inline-block mr-[0.26em] last:mr-0 ${bold ? "text-white font-semibold underline decoration-purple-400/60 underline-offset-4" : ""}`}
           initial={{ opacity: 0, y: 16, filter: "blur(10px)" }}
           animate={
             isTriggered
