@@ -149,15 +149,16 @@ export function evaluateCubeAtProgress(
   ];
 
   // Stage 3 (p = 0.80): Ambient background swarm around Bento section (Why Brands Stay)
+  // Cubes gather back into a more compact, organic distribution floating under and around the Bento cards
   const scatterAmbientPos: Vector3Tuple = [
-    spreadMidX * 1.05 + Math.sin(cube.phase * 1.7) * 0.3,
-    spreadMidY * 0.95 + Math.cos(cube.phase * 1.3) * 0.3,
+    scatter.position[0] * 1.05 + Math.sin(cube.phase * 1.7) * 0.4,
+    scatter.position[1] * 1.02 + Math.cos(cube.phase * 1.3) * 0.35,
     scatter.position[2] * 0.90 + Math.sin(cube.phase * 2.1) * 0.5,
   ];
   const scatterAmbientRot: Vector3Tuple = [
-    scatterMidRot[0] + 0.4,
-    scatterMidRot[1] + 0.5,
-    scatterMidRot[2] + 0.3,
+    scatter.rotation[0] + 1.5,
+    scatter.rotation[1] + 1.9,
+    scatter.rotation[2] + 1.0,
   ];
 
   let pos: Vector3Tuple;

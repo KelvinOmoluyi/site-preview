@@ -349,7 +349,7 @@ export function SectionShowcase() {
             </h2>
             <GatheringText 
               text="A simple, managed process that turns your content into organic reach across social platforms."
-              className="text-base sm:text-lg text-white/60 font-light"
+              className="text-base sm:text-lg text-white/60 font-light mx-auto text-center max-w-xl"
             />
           </div>
 
@@ -441,7 +441,7 @@ export function SectionShowcase() {
             </h2>
             <GatheringText 
               text="Attention has shifted to short-form content. Here's why brands are moving their budgets accordingly."
-              className="text-base sm:text-lg text-white/60 font-light"
+              className="text-base sm:text-lg text-white/60 font-light mx-auto text-center max-w-xl"
             />
           </div>
 
@@ -552,7 +552,7 @@ export function SectionShowcase() {
             </h2>
             <GatheringText 
               text="More visibility, more creators talking about your product, and a clearer view of what's working."
-              className="text-xs sm:text-sm text-white/60 font-light"
+              className="text-xs sm:text-sm text-white/60 font-light mx-auto text-center max-w-lg"
             />
           </div>
 
@@ -796,7 +796,7 @@ export function SectionShowcase() {
         <footer className="w-full pt-4 pb-2 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono text-white/40 pointer-events-auto relative z-10">
           <div className="flex items-center gap-2">
             <span className="font-bold text-white tracking-wider">VANTACLIP</span>
-            <span>© 2026. All rights reserved.</span>
+            <span> — CONCEPT EXPERIENCE · 2026</span>
           </div>
 
           <div className="flex items-center gap-6">
