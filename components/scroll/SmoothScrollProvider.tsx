@@ -35,11 +35,21 @@ export const SECTION_IDS = [
 
 export function SmoothScrollProvider({ children, vantaScene }: SmoothScrollProviderProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const currentIndexRef = useRef(0);
   const isAnimatingRef = useRef(false);
   const animFrameRef = useRef<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const totalPanels = SECTION_IDS.length;
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const navigateTo = useCallback(
     (targetIndex: number) => {
@@ -102,7 +112,37 @@ export function SmoothScrollProvider({ children, vantaScene }: SmoothScrollProvi
     [navigateTo, totalPanels]
   );
 
+  // MOBILE: Native natural scroll listener
   useEffect(() => {
+    if (!isMobile) return;
+
+    const handleScroll = () => {
+      const scrollY = window.scrollY || window.pageYOffset;
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = maxScroll > 0 ? Math.min(1, Math.max(0, scrollY / maxScroll)) : 0;
+      scrollController.setProgress(progress);
+
+      // Determine active section for header styling
+      let currentIdx = 0;
+      const viewportCenter = scrollY + window.innerHeight * 0.35;
+      SECTION_IDS.forEach((id, idx) => {
+        const el = document.getElementById(id);
+        if (el && el.offsetTop <= viewportCenter) {
+          currentIdx = idx;
+        }
+      });
+      scrollController.setSection(currentIdx);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isMobile]);
+
+  // DESKTOP: Wheel, Keyboard, and Slide controls
+  useEffect(() => {
+    if (isMobile) return;
+
     // Sync initial state
     scrollController.setProgress(0);
     scrollController.setSection(0);
@@ -121,44 +161,7 @@ export function SmoothScrollProvider({ children, vantaScene }: SmoothScrollProvi
       }
     };
 
-    // 2. MOBILE TOUCH LISTENERS
-    let touchStartY = 0;
-    let touchStartX = 0;
-
-    const onTouchStart = (e: TouchEvent) => {
-      touchStartY = e.touches[0].clientY;
-      touchStartX = e.touches[0].clientX;
-    };
-
-    const onTouchMove = (e: TouchEvent) => {
-      const currentY = e.touches[0].clientY;
-      const currentX = e.touches[0].clientX;
-      const dY = Math.abs(currentY - touchStartY);
-      const dX = Math.abs(currentX - touchStartX);
-      if (dY > dX && e.cancelable) {
-        e.preventDefault();
-      }
-    };
-
-    const onTouchEnd = (e: TouchEvent) => {
-      if (isAnimatingRef.current) return;
-
-      const touchEndY = e.changedTouches[0].clientY;
-      const touchEndX = e.changedTouches[0].clientX;
-      const deltaY = touchStartY - touchEndY;
-      const deltaX = Math.abs(touchStartX - touchEndX);
-
-      // Must be a vertical swipe and exceed minimum threshold
-      if (Math.abs(deltaY) > deltaX && Math.abs(deltaY) >= SLIDE_CONFIG.MIN_SWIPE_PX) {
-        if (deltaY > 0) {
-          navigate("down");
-        } else {
-          navigate("up");
-        }
-      }
-    };
-
-    // 3. KEYBOARD NAVIGATION
+    // 2. KEYBOARD NAVIGATION
     const onKeyDown = (e: KeyboardEvent) => {
       const activeTag = document.activeElement?.tagName.toLowerCase();
       if (activeTag === "input" || activeTag === "textarea") return;
@@ -172,7 +175,17 @@ export function SmoothScrollProvider({ children, vantaScene }: SmoothScrollProvi
       }
     };
 
-    // 4. IN-PAGE ANCHOR LINK CLICK INTERCEPTION
+    window.addEventListener("wheel", onWheel, { passive: false });
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      window.removeEventListener("wheel", onWheel);
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [isMobile, navigate]);
+
+  // IN-PAGE ANCHOR LINK CLICK INTERCEPTION (Both Mobile and Desktop)
+  useEffect(() => {
     const onAnchorClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       const anchor = target.closest("a");
@@ -184,45 +197,55 @@ export function SmoothScrollProvider({ children, vantaScene }: SmoothScrollProvi
         const targetIndex = SECTION_IDS.indexOf(targetId);
         if (targetIndex !== -1) {
           e.preventDefault();
-          navigateTo(targetIndex);
+          if (isMobile) {
+            const el = document.getElementById(targetId);
+            if (el) {
+              el.scrollIntoView({ behavior: "smooth" });
+            }
+          } else {
+            navigateTo(targetIndex);
+          }
         }
       }
     };
 
-    window.addEventListener("wheel", onWheel, { passive: false });
-    window.addEventListener("touchstart", onTouchStart, { passive: true });
-    window.addEventListener("touchmove", onTouchMove, { passive: false });
-    window.addEventListener("touchend", onTouchEnd, { passive: true });
-    window.addEventListener("keydown", onKeyDown);
     document.addEventListener("click", onAnchorClick);
-
     return () => {
-      window.removeEventListener("wheel", onWheel);
-      window.removeEventListener("touchstart", onTouchStart);
-      window.removeEventListener("touchmove", onTouchMove);
-      window.removeEventListener("touchend", onTouchEnd);
-      window.removeEventListener("keydown", onKeyDown);
       document.removeEventListener("click", onAnchorClick);
     };
-  }, [navigate, navigateTo]);
+  }, [isMobile, navigateTo]);
 
   return (
-    <div className="custom-slider-viewport w-full h-screen h-[100svh] overflow-hidden relative">
+    <div
+      className={`custom-slider-viewport w-full relative ${
+        isMobile ? "overflow-visible min-h-screen" : "h-screen h-[100svh] overflow-hidden"
+      }`}
+    >
       <div
         ref={containerRef}
-        className="custom-slider-container w-full h-full will-change-transform"
-        style={{
-          transform: `translate3d(0, -${currentIndex * 100}%, 0)`,
-          transition: `transform ${SLIDE_CONFIG.DURATION_MS}ms ${SLIDE_CONFIG.EASING}`,
-        }}
+        className={`custom-slider-container w-full ${
+          isMobile ? "h-auto" : "h-full will-change-transform"
+        }`}
+        style={
+          isMobile
+            ? undefined
+            : {
+                transform: `translate3d(0, -${currentIndex * 100}%, 0)`,
+                transition: `transform ${SLIDE_CONFIG.DURATION_MS}ms ${SLIDE_CONFIG.EASING}`,
+              }
+        }
       >
         {vantaScene && (
           <div
-            className="absolute inset-0 pointer-events-none z-[5]"
-            style={{
-              transform: `translate3d(0, ${currentIndex * 100}%, 0)`,
-              transition: `transform ${SLIDE_CONFIG.DURATION_MS}ms ${SLIDE_CONFIG.EASING}`,
-            }}
+            className="fixed inset-0 pointer-events-none z-[5]"
+            style={
+              isMobile
+                ? undefined
+                : {
+                    transform: `translate3d(0, ${currentIndex * 100}%, 0)`,
+                    transition: `transform ${SLIDE_CONFIG.DURATION_MS}ms ${SLIDE_CONFIG.EASING}`,
+                  }
+            }
           >
             {vantaScene}
           </div>

@@ -163,12 +163,26 @@ html.lenis body {
   body {
     margin: 0;
     padding: 0;
-    height: 100%;
-    touch-action: none;
+    min-height: 100%;
+  }
+  @media (min-width: 1024px) {
+    html,
+    body {
+      height: 100%;
+      touch-action: none;
+      overflow: hidden;
+    }
+  }
+  @media (max-width: 1023px) {
+    html,
+    body {
+      overflow-x: hidden;
+      overflow-y: auto;
+      touch-action: pan-y;
+    }
   }
   body {
     @apply bg-background text-foreground;
-    overflow: hidden;
   }
   html {
     @apply font-sans;
@@ -177,12 +191,25 @@ html.lenis body {
 
 /* Custom Panel Slide Architecture */
 .snap-panel {
-  height: 100vh;
-  height: 100svh;
   width: 100%;
-  flex-shrink: 0;
   position: relative;
-  overflow: hidden;
+}
+
+@media (min-width: 1024px) {
+  .snap-panel {
+    height: 100vh;
+    height: 100svh;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 1023px) {
+  .snap-panel {
+    min-height: 100vh;
+    height: auto;
+    overflow: visible;
+  }
 }
 @layer utilities {
   .btn-complex-gradient {

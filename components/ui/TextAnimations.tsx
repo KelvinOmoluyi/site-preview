@@ -31,6 +31,7 @@ export function AnimatedSection({
   children: React.ReactNode;
 }) {
   const [isTriggered, setIsTriggered] = useState(false);
+  const sectionRef = React.useRef<HTMLElement>(null);
 
   useEffect(() => {
     const checkTrigger = () => {
@@ -50,15 +51,32 @@ export function AnimatedSection({
     window.addEventListener("vanta-site-loaded", checkTrigger);
     window.addEventListener("vanta-section-change", checkTrigger);
 
+    // IntersectionObserver for mobile natural scrolling
+    let observer: IntersectionObserver | null = null;
+    if (typeof window !== "undefined" && "IntersectionObserver" in window && sectionRef.current) {
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting && scrollController.isSiteLoaded) {
+              setIsTriggered(true);
+            }
+          });
+        },
+        { threshold: 0.12 }
+      );
+      observer.observe(sectionRef.current);
+    }
+
     return () => {
       window.removeEventListener("vanta-site-loaded", checkTrigger);
       window.removeEventListener("vanta-section-change", checkTrigger);
+      if (observer) observer.disconnect();
     };
   }, [index]);
 
   return (
     <SectionAnimationContext.Provider value={{ isTriggered }}>
-      <section id={id} className={className}>
+      <section ref={sectionRef} id={id} className={className}>
         {children}
       </section>
     </SectionAnimationContext.Provider>

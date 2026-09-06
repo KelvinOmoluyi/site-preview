@@ -19,7 +19,7 @@ export function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 px-5 sm:px-8 md:px-12 py-2.5 sm:py-3 flex items-center justify-between pointer-events-auto transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 px-4 sm:px-8 md:px-12 py-2 sm:py-2.5 md:py-3 flex items-center justify-between pointer-events-auto transition-all duration-300 ${
         isScrolled
           ? "bg-black/70 backdrop-blur-xl border-b border-purple-500/20 shadow-[0_4px_25px_rgba(0,0,0,0.7)]"
           : "bg-transparent backdrop-blur-none border-b border-transparent"
@@ -30,7 +30,7 @@ export function Header() {
           <img
             src="/logo.png"
             alt="VantaClip"
-            className="h-7 sm:h-8 w-auto object-contain drop-shadow-md hover:opacity-90 transition-opacity"
+            className="h-6 sm:h-7 md:h-8 w-auto object-contain drop-shadow-md hover:opacity-90 transition-opacity"
           />
         </a>
       </div>
@@ -55,9 +55,9 @@ export function Header() {
       <div className="flex items-center gap-3">
         <a
           href="#booking"
-          className="px-4 py-2 sm:px-5 sm:py-2 rounded-full font-medium text-xs text-white btn-complex-gradient hover:brightness-110 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-1.5"
+          className="px-3.5 py-1.5 sm:px-5 sm:py-2 rounded-full font-medium text-xs text-white btn-complex-gradient hover:brightness-110 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-1.5 shrink-0"
         >
-          Book Strategy Call
+          <span>Book <span className="hidden sm:inline">Strategy</span> Call</span>
           <IconArrowRight className="w-3.5 h-3.5 text-purple-300" />
         </a>
       </div>
