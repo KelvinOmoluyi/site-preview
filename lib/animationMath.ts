@@ -58,10 +58,11 @@ export function arcVector3(
  * and animation timestamp.
  * 
  * Timeline Milestones:
- * 0.00 - 0.20: Formation Right (Hero state)
- * 0.20 - 0.50: Disassembly & Scatter into Swarm (traveling across center)
- * 0.50 - 0.80: Swarm continuing across screen & Converging into Left
- * 0.80 - 1.00: Formation Left (Assembled state)
+ * 0.00 - 0.04: Formation Right (Hero state)
+ * 0.04 - 0.17: Disassembly & Scatter into Swarm (traveling as user scrolls from Hero to Section 2)
+ * 0.17 - 0.55: Full Scatter Swarm (Section 2 Trust/Budget, Section 3 How It Works, Section 4 Comparison)
+ * 0.55 - 0.80: Swarm converging into Left V (Section 4 Comparison to Section 5 Why Brands Stay)
+ * 0.80 - 1.00: Formation Left (Section 5 Why Brands Stay & Section 6 Booking)
  */
 export function evaluateCubeAtProgress(
   cube: CubeData,
@@ -73,7 +74,7 @@ export function evaluateCubeAtProgress(
 
   // Reduced motion: smooth gentle glide without aggressive swarm or scatter
   if (isReducedMotion) {
-    const t = smootherstep(0.15, 0.85, p);
+    const t = smootherstep(0.04, 0.80, p);
     const pos = interpolateVector3(
       cube.states.formationRight.position,
       cube.states.formationLeft.position,
@@ -98,14 +99,14 @@ export function evaluateCubeAtProgress(
   const idleRotY = Math.cos(time * 1.4 + cube.phase) * 0.04;
 
   // Stagger calculation: each cube peels away slightly staggered by phase
-  const staggerDelay = (Math.sin(cube.phase) * 0.5 + 0.5) * 0.08;
+  const staggerDelay = (Math.sin(cube.phase) * 0.5 + 0.5) * 0.04;
 
   let pos: Vector3Tuple;
   let rot: Vector3Tuple;
   let scale: number;
 
-  if (p <= 0.20) {
-    // Section 1: Firmly in Right V Formation
+  if (p <= 0.04) {
+    // Section 1 (Hero): Firmly in Right V Formation
     const right = cube.states.formationRight;
     pos = [
       right.position[0] + idleX,
@@ -118,17 +119,16 @@ export function evaluateCubeAtProgress(
       right.rotation[2],
     ];
     scale = right.scale;
-  } else if (p < 0.50) {
-    // Section 2: Breaking apart from Right V into Swarm / Mid-screen
-    const startRange = 0.20 + staggerDelay;
-    const endRange = 0.50;
+  } else if (p < 0.17) {
+    // Scroll Transition from Hero to Section 2: Breaking apart from Right V into Scatter
+    const startRange = 0.04 + staggerDelay;
+    const endRange = 0.17;
     const t = smootherstep(startRange, endRange, p);
 
     const right = cube.states.formationRight;
     const scatter = cube.states.scatter;
 
     pos = arcVector3(right.position, scatter.position, scatter.position, t);
-    // Add idle wave that intensifies as cubes break free
     pos[0] += idleX * (1 + t);
     pos[1] += idleY * (1 + t);
 
@@ -137,9 +137,23 @@ export function evaluateCubeAtProgress(
     rot[1] += idleRotY * (1 + t * 2);
 
     scale = lerp(right.scale, scatter.scale, t);
+  } else if (p < 0.55) {
+    // Sections 2, 3, 4 (Trust/Budget, How It Works, Comparison): Fully Scattered
+    const scatter = cube.states.scatter;
+    pos = [
+      scatter.position[0] + idleX * 2,
+      scatter.position[1] + idleY * 2,
+      scatter.position[2],
+    ];
+    rot = [
+      scatter.rotation[0] + idleRotX * 3,
+      scatter.rotation[1] + idleRotY * 3,
+      scatter.rotation[2],
+    ];
+    scale = scatter.scale;
   } else if (p < 0.80) {
-    // Section 3: Traveling across the viewport and converging towards Left V
-    const startRange = 0.50;
+    // Sections 4 to 5: Traveling across the viewport and converging towards Left V
+    const startRange = 0.55;
     const endRange = 0.80 - staggerDelay;
     const t = smootherstep(startRange, endRange, p);
 
@@ -151,12 +165,12 @@ export function evaluateCubeAtProgress(
     pos[1] += idleY * (2 - t);
 
     rot = interpolateVector3(scatter.rotation, left.rotation, t);
-    rot[0] += idleRotX * (2 - t);
-    rot[1] += idleRotY * (2 - t);
+    rot[0] += idleRotX * (3 - 2 * t);
+    rot[1] += idleRotY * (3 - 2 * t);
 
     scale = lerp(scatter.scale, left.scale, t);
   } else {
-    // Section 4: Firmly in Left V Formation
+    // Section 5 & 6 (Why Brands Stay & Booking): Firmly in Left V Formation
     const left = cube.states.formationLeft;
     pos = [
       left.position[0] + idleX,

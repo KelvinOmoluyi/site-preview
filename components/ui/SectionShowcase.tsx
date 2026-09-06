@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   IconMegaphone,
   IconDocument,
@@ -22,7 +22,20 @@ import DarkVeil from "./DarkVeil";
 export function SectionShowcase() {
   const [activeStep, setActiveStep] = useState(0);
   const [bentoMousePos, setBentoMousePos] = useState({ x: 0, y: 0 });
+  const [isScrolled, setIsScrolled] = useState(false);
   const bentoGridRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const scrollContainer = document.getElementById("vanta-scroll-container") || window;
+    const handleScroll = () => {
+      const top = "scrollTop" in scrollContainer ? (scrollContainer as HTMLElement).scrollTop : window.scrollY;
+      setIsScrolled(top > 60);
+    };
+    scrollContainer.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => scrollContainer.removeEventListener("scroll", handleScroll);
+  }, []);
+
 
   const handleBentoMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (bentoGridRef.current) {
@@ -68,16 +81,19 @@ export function SectionShowcase() {
   return (
     <div className="relative w-full text-white pointer-events-none select-none">
       {/* 1. TOP NAVIGATION */}
-      <header className="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-4 flex items-center justify-between pointer-events-auto bg-transparent">
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-4 flex items-center justify-between pointer-events-auto transition-[background-color,backdrop-filter,box-shadow] duration-300 ${
+          isScrolled
+            ? "bg-black/60 backdrop-blur-xl shadow-lg shadow-black/40"
+            : "bg-transparent backdrop-blur-none"
+        }`}
+      >
         <div className="flex items-center">
           <img src="/logo.png" alt="VantaClip" className="h-8 md:h-10 w-auto object-contain drop-shadow-md" />
         </div>
 
         {/* Desktop Nav Links */}
         <nav className="hidden md:flex items-center gap-8 text-xs font-mono uppercase tracking-widest text-white/60">
-          <a href="#how-it-works" className="hover:text-violet-300 transition-colors">
-            How It Works
-          </a>
           <a href="#comparison" className="hover:text-violet-300 transition-colors">
             Why Us
           </a>
@@ -164,16 +180,10 @@ export function SectionShowcase() {
             </a>
           </div>
         </div>
-
-        {/* Subtle scroll cue */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/40 text-xs font-mono tracking-widest uppercase flex items-center gap-2 pointer-events-none">
-          <span className="inline-block w-1.5 h-1.5 rounded-full bg-violet-400/80 animate-ping shadow-[0_0_8px_rgba(168,85,247,0.6)]" />
-          Scroll to explore the architecture
-        </div>
       </section>
 
       {/* 3. BUDGET ALERT & TRUST BADGES */}
-      <section id="trust" className="snap-section w-full min-h-[50vh] flex flex-col justify-center px-6 md:px-14 lg:px-20 py-16">
+      <section id="trust" className="snap-section w-full min-h-screen flex flex-col justify-center px-6 md:px-14 lg:px-20 py-24">
         <div className="max-w-5xl mx-auto w-full space-y-6 pointer-events-auto relative z-10">
           {/* Campaign Budget Alert Box */}
           <div className="p-4 sm:p-5 rounded-2xl border border-purple-500/30 bg-gradient-to-r from-purple-950/40 via-violet-950/20 to-purple-950/40 backdrop-blur-xl flex items-center gap-3.5 shadow-xl shadow-purple-950/30">
@@ -214,10 +224,6 @@ export function SectionShowcase() {
         <div className="max-w-6xl mx-auto w-full space-y-16 relative z-10">
           {/* Header */}
           <div className="text-center max-w-2xl mx-auto space-y-4 pointer-events-auto">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-purple-500/30 bg-purple-950/30 text-purple-300 text-xs font-mono uppercase tracking-wider">
-              <span className="h-1.5 w-1.5 rounded-full bg-purple-400" />
-              How It Works
-            </div>
             <h2 
               className="flex flex-col text-[2.5rem] sm:text-[3.5rem] md:text-[4.5rem] uppercase leading-[0.85] tracking-tight mt-3 mb-5 text-white"
               style={{ fontFamily: "'Bebas Neue', sans-serif" }}
@@ -584,9 +590,9 @@ export function SectionShowcase() {
         </div>
       </section>
 
-      {/* 7. HIGH-CONVERTING CLOSING STRATEGY CALL / CTA SECTION */}
-      <section id="booking" className="snap-section w-full px-6 md:px-14 lg:px-20 py-28 relative">
-        <div className="max-w-4xl mx-auto rounded-3xl border border-purple-500/40 bg-gradient-to-b from-purple-950/40 via-[#0e0a1e]/90 to-[#06050a] p-8 sm:p-14 text-center space-y-8 backdrop-blur-2xl shadow-2xl shadow-purple-950/50 pointer-events-auto relative z-10 overflow-hidden">
+      {/* 7. HIGH-CONVERTING CLOSING STRATEGY CALL / CTA SECTION WITH INTEGRATED FOOTER */}
+      <section id="booking" className="snap-section min-h-screen w-full px-6 md:px-14 lg:px-20 pt-20 pb-8 flex flex-col justify-between relative">
+        <div className="max-w-4xl mx-auto my-auto w-full rounded-3xl border border-purple-500/40 bg-gradient-to-b from-purple-950/40 via-[#0e0a1e]/90 to-[#06050a] p-8 sm:p-14 text-center space-y-8 backdrop-blur-2xl shadow-2xl shadow-purple-950/50 pointer-events-auto relative z-10 overflow-hidden">
           <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl pointer-events-none" />
 
           <div className="space-y-4 relative z-10">
@@ -622,22 +628,22 @@ export function SectionShowcase() {
             Starting at $1,000 Campaign Budget • Zero Risk Consultation
           </div>
         </div>
+
+        {/* 8. FOOTER */}
+        <footer className="w-full pt-8 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-white/40 pointer-events-auto relative z-10">
+          <div className="flex items-center gap-2">
+            <span className="font-bold text-white tracking-wider">VANTACLIP</span>
+            <span>© 2026. All rights reserved.</span>
+          </div>
+
+          <div className="flex items-center gap-6">
+            <a href="#" className="hover:text-purple-400 transition-colors">Privacy</a>
+            <a href="#" className="hover:text-purple-400 transition-colors">Terms</a>
+            <a href="#" className="hover:text-purple-400 transition-colors">Discord</a>
+            <a href="#" className="hover:text-purple-400 transition-colors">Twitter / X</a>
+          </div>
+        </footer>
       </section>
-
-      {/* 8. FOOTER */}
-      <footer className="w-full px-6 md:px-14 lg:px-20 py-10 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-white/40 pointer-events-auto">
-        <div className="flex items-center gap-2">
-          <span className="font-bold text-white tracking-wider">VANTACLIP</span>
-          <span>© 2026. All rights reserved.</span>
-        </div>
-
-        <div className="flex items-center gap-6">
-          <a href="#" className="hover:text-purple-400 transition-colors">Privacy</a>
-          <a href="#" className="hover:text-purple-400 transition-colors">Terms</a>
-          <a href="#" className="hover:text-purple-400 transition-colors">Discord</a>
-          <a href="#" className="hover:text-purple-400 transition-colors">Twitter / X</a>
-        </div>
-      </footer>
     </div>
   );
 }

@@ -10,11 +10,11 @@ export const metadata = {
 
 export default function Home() {
   return (
-    <main className="relative min-h-screen bg-[#050508] text-white selection:bg-violet-500/30 selection:text-violet-200">
+    <main className="relative h-screen h-[100svh] overflow-hidden bg-[#050508] text-white selection:bg-violet-500/30 selection:text-violet-200">
       {/* Persistent 3D WebGL Scene across all sections */}
       <VantaScene cubeCount={13} />
 
-      {/* Smooth Scroll Container with Lenis and GSAP ScrollTrigger */}
+      {/* Native CSS Scroll Snap Container */}
       <SmoothScrollProvider>
         {/* DOM Sections demonstrating the full scroll choreography */}
         <SectionShowcase />
