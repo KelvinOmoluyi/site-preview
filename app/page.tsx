@@ -12,7 +12,7 @@ export const metadata = {
 
 export default function Home() {
   return (
-    <main className="relative h-screen h-[100svh] overflow-hidden bg-[#050508] text-white selection:bg-violet-500/30 selection:text-violet-200">
+    <main className="relative min-h-screen lg:h-screen lg:h-[100svh] lg:overflow-hidden bg-[#050508] text-white selection:bg-violet-500/30 selection:text-violet-200">
       <LoadingScreen />
 
       {/* Persistent sticky header pinned to viewport above all slides */}

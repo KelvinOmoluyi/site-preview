@@ -35,21 +35,29 @@ export function AnimatedSection({
 
   useEffect(() => {
     const checkTrigger = () => {
-      // Must not trigger while loading screen is covering the page
       if (!scrollController.isSiteLoaded) {
         return;
       }
-      // If user reaches this section, trigger entrance animation and keep it active
+      // Trigger if desktop current section matches
       if (scrollController.currentSection === index) {
         setIsTriggered(true);
+        return;
+      }
+      // On mobile natural scroll, trigger if section is in/near viewport
+      if (sectionRef.current) {
+        const rect = sectionRef.current.getBoundingClientRect();
+        if (rect.top < window.innerHeight * 0.9 && rect.bottom > 0) {
+          setIsTriggered(true);
+        }
       }
     };
 
-    // Check immediately in case it's already loaded and active
+    // Check immediately
     checkTrigger();
 
     window.addEventListener("vanta-site-loaded", checkTrigger);
     window.addEventListener("vanta-section-change", checkTrigger);
+    window.addEventListener("scroll", checkTrigger, { passive: true });
 
     // IntersectionObserver for mobile natural scrolling
     let observer: IntersectionObserver | null = null;
@@ -57,12 +65,12 @@ export function AnimatedSection({
       observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
-            if (entry.isIntersecting && scrollController.isSiteLoaded) {
+            if (entry.isIntersecting) {
               setIsTriggered(true);
             }
           });
         },
-        { threshold: 0.12 }
+        { rootMargin: "100px 0px" }
       );
       observer.observe(sectionRef.current);
     }
@@ -70,6 +78,7 @@ export function AnimatedSection({
     return () => {
       window.removeEventListener("vanta-site-loaded", checkTrigger);
       window.removeEventListener("vanta-section-change", checkTrigger);
+      window.removeEventListener("scroll", checkTrigger);
       if (observer) observer.disconnect();
     };
   }, [index]);

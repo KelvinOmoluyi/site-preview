@@ -117,9 +117,9 @@ export function SmoothScrollProvider({ children, vantaScene }: SmoothScrollProvi
     if (!isMobile) return;
 
     const handleScroll = () => {
-      const scrollY = window.scrollY || window.pageYOffset;
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = maxScroll > 0 ? Math.min(1, Math.max(0, scrollY / maxScroll)) : 0;
+      const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+      const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      const progress = Math.min(1, Math.max(0, scrollY / maxScroll));
       scrollController.setProgress(progress);
 
       // Determine active section for header styling
@@ -127,16 +127,24 @@ export function SmoothScrollProvider({ children, vantaScene }: SmoothScrollProvi
       const viewportCenter = scrollY + window.innerHeight * 0.35;
       SECTION_IDS.forEach((id, idx) => {
         const el = document.getElementById(id);
-        if (el && el.offsetTop <= viewportCenter) {
-          currentIdx = idx;
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          const elTop = rect.top + scrollY;
+          if (elTop <= viewportCenter) {
+            currentIdx = idx;
+          }
         }
       });
       scrollController.setSection(currentIdx);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
+    document.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      document.removeEventListener("scroll", handleScroll);
+    };
   }, [isMobile]);
 
   // DESKTOP: Wheel, Keyboard, and Slide controls

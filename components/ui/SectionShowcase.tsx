@@ -136,7 +136,7 @@ export function SectionShowcase() {
       </AnimatedSection>
 
       {/* 3. BUDGET ALERT & BENTO TRUST MATRIX */}
-      <AnimatedSection id="trust" index={1} className="snap-panel flex flex-col justify-center px-4 sm:px-8 md:px-14 lg:px-20 py-16 sm:py-20 lg:py-16 relative overflow-hidden">
+      <AnimatedSection id="trust" index={1} className="snap-panel flex flex-col justify-center px-4 sm:px-8 md:px-14 lg:px-20 py-16 sm:py-20 lg:py-16 relative overflow-visible lg:overflow-hidden">
         <div className="max-w-5xl mx-auto w-full space-y-2.5 sm:space-y-3 pointer-events-auto relative z-10 my-auto">
           {/* 1. Top Campaign Budget Advisory Banner (Flat, Sleek, Solid) */}
           <div className="py-2.5 px-4 sm:px-5 rounded-xl bg-[#0e0a1c] border border-purple-500/30 shadow-[inset_0_1px_1px_rgba(255,255,255,0.12),inset_0_-15px_25px_-10px_rgba(147,51,234,0.25)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 sm:gap-4">

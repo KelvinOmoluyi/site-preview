@@ -46,7 +46,7 @@ export function CubeField({ cubes, isReducedPower = false }: CubeFieldProps) {
   const responsiveScale = useMemo(() => {
     if (viewport.width < 7) {
       // Mobile / narrow screen
-      return 0.65;
+      return 0.52;
     } else if (viewport.width < 11) {
       // Tablet
       return 0.82;
@@ -110,10 +110,31 @@ export function CubeField({ cubes, isReducedPower = false }: CubeFieldProps) {
         isReducedMotion.current
       );
 
-      // Apply responsive scaling and horizontal clamping
-      const baseX = baseTransform.position[0] * responsiveScale;
-      const baseY = baseTransform.position[1] * responsiveScale;
-      const baseZ = baseTransform.position[2] * responsiveScale;
+      let baseX = baseTransform.position[0];
+      let baseY = baseTransform.position[1];
+      let baseZ = baseTransform.position[2];
+
+      if (viewport.width < 7) {
+        // MOBILE VIEWPORT ADAPTATIONS:
+        // 1. Center the Hero V-formation horizontally at x = 0 (instead of desktop offset x = +3.4)
+        // Smoothly fade out the centering offset as the user scrolls into section 1 (p: 0 -> 0.18)
+        const heroCenterOffset = (1 - Math.min(1, currentProgress.current / 0.18)) * 3.4;
+        const uncenteredX = baseTransform.position[0] - heroCenterOffset;
+
+        // 2. Scale scatter coordinates horizontally so cubes stay framed within mobile screen width
+        const mobileXRatio = Math.min(1.0, (viewport.width / 12.0) * 1.5);
+        baseX = uncenteredX * responsiveScale * mobileXRatio;
+
+        // 3. Lower the hero formation slightly so it sits beautifully below the headline text
+        const heroYOffset = (1 - Math.min(1, currentProgress.current / 0.18)) * -0.5;
+        baseY = (baseTransform.position[1] + heroYOffset) * responsiveScale;
+        baseZ = baseTransform.position[2] * responsiveScale;
+      } else {
+        // DESKTOP & TABLET: Standard scaling
+        baseX = baseTransform.position[0] * responsiveScale;
+        baseY = baseTransform.position[1] * responsiveScale;
+        baseZ = baseTransform.position[2] * responsiveScale;
+      }
 
       // 2. Compute pointer disturbance physics (repulsion + spatial wave)
       if (hasPointerIntersection && !isReducedMotion.current) {

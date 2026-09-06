@@ -177,8 +177,10 @@ html.lenis body {
     html,
     body {
       overflow-x: hidden;
-      overflow-y: auto;
-      touch-action: pan-y;
+      overflow-y: auto !important;
+      touch-action: pan-y !important;
+      -webkit-overflow-scrolling: touch;
+      height: auto !important;
     }
   }
   body {
