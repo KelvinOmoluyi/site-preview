@@ -775,47 +775,47 @@ export function SectionShowcase() {
       </AnimatedSection>
 
       {/* 7. HIGH-CONVERTING CLOSING STRATEGY CALL / CTA SECTION WITH INTEGRATED FOOTER */}
-      <AnimatedSection id="booking" index={5} className="snap-panel px-6 md:px-14 lg:px-20 pt-20 pb-8 flex flex-col justify-between relative">
-        <div className="max-w-4xl mx-auto my-auto w-full rounded-2xl border border-purple-500/35 bg-[#06040c] bg-gradient-to-b from-[#180f33] via-[#0b0816] to-[#06040c] p-6 sm:p-12 text-center space-y-6 shadow-[inset_0_1px_1px_rgba(255,255,255,0.16),inset_0_-40px_60px_-20px_rgba(147,51,234,0.35),0_20px_45px_-15px_rgba(0,0,0,0.85)] pointer-events-auto relative z-10 overflow-hidden">
+      <AnimatedSection id="booking" index={5} className="snap-panel px-4 sm:px-8 md:px-14 lg:px-20 pt-8 sm:pt-10 pb-4 sm:pb-6 flex flex-col justify-between relative">
+        <div className="max-w-4xl mx-auto my-auto w-full rounded-2xl border border-purple-500/35 bg-[#06040c] bg-gradient-to-b from-[#180f33] via-[#0b0816] to-[#06040c] p-5 sm:p-8 md:p-10 text-center space-y-3 sm:space-y-4 shadow-[inset_0_1px_1px_rgba(255,255,255,0.16),inset_0_-40px_60px_-20px_rgba(147,51,234,0.35),0_20px_45px_-15px_rgba(0,0,0,0.85)] pointer-events-auto relative z-10 overflow-hidden">
           <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl pointer-events-none" />
 
-          <div className="space-y-4 relative z-10">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-purple-500/30 bg-purple-950/30 text-purple-300 text-xs font-mono uppercase tracking-wider">
+          <div className="space-y-2.5 sm:space-y-3 relative z-10">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-purple-500/30 bg-purple-950/30 text-purple-300 text-[11px] font-mono uppercase tracking-wider">
               <span className="h-1.5 w-1.5 rounded-full bg-purple-400" />
               Scale Your Distribution
             </div>
             <h2 
-              className="flex flex-col text-[2.25rem] sm:text-[3rem] md:text-[3.75rem] lg:text-[4.25rem] uppercase leading-[0.85] tracking-tight mt-3 mb-5 text-white"
+              className="flex flex-col text-[1.85rem] sm:text-[2.5rem] md:text-[3rem] lg:text-[3.5rem] uppercase leading-[0.88] tracking-tight my-1 sm:my-2 text-white"
               style={{ fontFamily: "'Bebas Neue', sans-serif" }}
             >
               <span><WavyHeader text="READY TO TURN ONE CAMPAIGN" /></span>
-              <span className="text-transparent [-webkit-text-stroke:1.5px_rgba(255,255,255,0.8)] md:[-webkit-text-stroke:2px_rgba(255,255,255,0.8)] mt-1 md:mt-2">
+              <span className="text-transparent [-webkit-text-stroke:1.25px_rgba(255,255,255,0.8)] md:[-webkit-text-stroke:1.75px_rgba(255,255,255,0.8)] mt-1">
                 <WavyHeader text="INTO MILLIONS OF VIEWS?" delayOffset={0.2} />
               </span>
             </h2>
             <GatheringText 
               text="Schedule your strategy call with VantaClip today and let's map out your short-form distribution blueprint."
-              className="text-base sm:text-lg text-white/60 font-light max-w-xl mx-auto"
+              className="text-xs sm:text-sm text-white/60 font-light max-w-lg mx-auto"
             />
           </div>
 
-          <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4 relative z-10">
+          <div className="pt-1 flex flex-col sm:flex-row items-center justify-center gap-3 relative z-10">
             <button
               onClick={() => alert("Redirecting to VantaClip Strategy Call Booking calendar...")}
-              className="w-full sm:w-auto px-8 py-4 rounded-full font-medium text-sm text-white btn-complex-gradient hover:brightness-110 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-7 py-3.5 rounded-full font-medium text-sm text-white btn-complex-gradient hover:brightness-110 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer flex items-center justify-center gap-2"
             >
               Book Your Strategy Call
               <IconArrowRight className="w-4 h-4 text-purple-300" />
             </button>
           </div>
 
-          <div className="text-xs font-mono text-white/40 pt-4 relative z-10">
+          <div className="text-[11px] sm:text-xs font-mono text-white/40 pt-1 sm:pt-2 relative z-10">
             Starting at $1,000 Campaign Budget • Zero Risk Consultation
           </div>
         </div>
 
         {/* 8. FOOTER */}
-        <footer className="w-full pt-8 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-white/40 pointer-events-auto relative z-10">
+        <footer className="w-full pt-4 pb-2 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono text-white/40 pointer-events-auto relative z-10">
           <div className="flex items-center gap-2">
             <span className="font-bold text-white tracking-wider">VANTACLIP</span>
             <span>© 2026. All rights reserved.</span>

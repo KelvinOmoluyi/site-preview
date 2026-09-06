@@ -185,23 +185,23 @@ export function generateScatterFormation(
 
 /**
  * Generates coordinate states for the final section scatter formation.
- * Cubes scatter completely out of view of the website in all directions
- * (moving far beyond the viewport bounds) with scale fading to 0.
+ * Cubes scatter just outside the viewport boundary in all directions,
+ * keeping the travel distance short and the animation graceful, with scale fading to 0.
  */
 export const FINAL_SCATTER_POSITIONS: Vector3Tuple[] = [
-  [18.0, 12.0, -2.0],   // 0: Far Top-Right (off-screen)
-  [20.0, 6.0, 2.0],     // 1: Upper-Right (off-screen)
-  [20.0, -5.0, -2.0],   // 2: Lower-Right (off-screen)
-  [18.0, -12.0, 1.0],   // 3: Far Bottom-Right (off-screen)
-  [-18.0, 12.0, -2.0],  // 4: Far Top-Left (off-screen)
-  [-20.0, 6.0, 2.0],    // 5: Upper-Left (off-screen)
-  [-20.0, -5.0, -1.0],  // 6: Lower-Left (off-screen)
-  [-18.0, -12.0, 1.0],  // 7: Far Bottom-Left (off-screen)
-  [-10.0, 16.0, -3.0],  // 8: High Top-Left (off-screen)
-  [10.0, 16.0, -2.0],   // 9: High Top-Right (off-screen)
-  [-8.0, -16.0, -1.0],  // 10: Deep Bottom-Left (off-screen)
-  [8.0, -16.0, -2.0],   // 11: Deep Bottom-Right (off-screen)
-  [0.0, 18.0, 5.0],     // 12: High Center ejection (off-screen)
+  [8.8, 3.8, -0.5],   // 0: Just past Top-Right edge
+  [9.2, 1.2, 0.5],    // 1: Just past Mid-Right edge
+  [9.0, -1.8, -0.8],  // 2: Just past Lower-Right edge
+  [8.2, -4.6, 0.4],   // 3: Just past Bottom-Right corner
+  [-8.8, 3.8, -0.5],  // 4: Just past Top-Left edge
+  [-9.2, 1.2, 0.5],   // 5: Just past Mid-Left edge
+  [-9.0, -1.8, -0.8], // 6: Just past Lower-Left edge
+  [-8.2, -4.6, 0.4],  // 7: Just past Bottom-Left corner
+  [-3.8, 5.0, -0.6],  // 8: Just past High Top-Left
+  [3.8, 5.0, -0.6],   // 9: Just past High Top-Right
+  [-3.5, -5.0, 0.2],  // 10: Just past Deep Bottom-Left
+  [3.5, -5.0, -0.4],  // 11: Just past Deep Bottom-Right
+  [0.0, 5.2, 0.5],    // 12: Just past High Center edge
 ];
 
 export const FINAL_SCATTER_ROTATIONS: Vector3Tuple[] = [
