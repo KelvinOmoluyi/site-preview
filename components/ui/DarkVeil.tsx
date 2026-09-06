@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useRef, useEffect } from "react";
 import { Renderer, Program, Mesh, Triangle, Vec2 } from "ogl";
@@ -104,7 +104,7 @@ export default function DarkVeil({
   speed = 0.5,
   scanlineFrequency = 0,
   warpAmount = 0,
-  resolutionScale = 1,
+  resolutionScale = 0.35,
   lightMode = false,
 }: DarkVeilProps) {
   const ref = useRef<HTMLCanvasElement | null>(null);
@@ -115,8 +115,9 @@ export default function DarkVeil({
     const parent = canvas.parentElement;
     if (!parent) return;
 
+    // Use dpr: 1 to prevent massive pixel fill rate explosion on retina displays
     const renderer = new Renderer({
-      dpr: Math.min(window.devicePixelRatio || 1, 2),
+      dpr: 1,
       canvas,
     });
 

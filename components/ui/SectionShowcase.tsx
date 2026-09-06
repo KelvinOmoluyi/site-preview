@@ -18,6 +18,7 @@ import {
   IconArrowRight,
 } from "./Icons";
 import DarkVeil from "./DarkVeil";
+import { WavyHeader, GatheringText, AnimatedSection, FadeInUp } from "./TextAnimations";
 
 export function SectionShowcase() {
   const [activeStep, setActiveStep] = useState(0);
@@ -26,14 +27,14 @@ export function SectionShowcase() {
   const bentoGridRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const scrollContainer = document.getElementById("vanta-scroll-container") || window;
-    const handleScroll = () => {
-      const top = "scrollTop" in scrollContainer ? (scrollContainer as HTMLElement).scrollTop : window.scrollY;
-      setIsScrolled(top > 60);
+    const handleSectionChange = (e: Event) => {
+      const customEvent = e as CustomEvent<{ index: number; isScrolled: boolean }>;
+      if (customEvent.detail) {
+        setIsScrolled(customEvent.detail.isScrolled);
+      }
     };
-    scrollContainer.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => scrollContainer.removeEventListener("scroll", handleScroll);
+    window.addEventListener("vanta-section-change", handleSectionChange);
+    return () => window.removeEventListener("vanta-section-change", handleSectionChange);
   }, []);
 
 
@@ -118,7 +119,7 @@ export function SectionShowcase() {
       </header>
 
       {/* 2. HERO SECTION */}
-      <section className="snap-section min-h-screen w-full flex flex-col justify-center px-6 md:px-14 lg:px-20 pt-28 pb-16 relative overflow-hidden">
+      <AnimatedSection id="hero" index={0} className="snap-panel flex flex-col justify-center px-6 md:px-14 lg:px-20 pt-28 pb-16 relative overflow-hidden">
         {/* React Bits DarkVeil Ambient Kinetic Shader Background */}
         <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
           <DarkVeil
@@ -126,7 +127,7 @@ export function SectionShowcase() {
             speed={0.4}
             noiseIntensity={0.015}
             warpAmount={0.25}
-            resolutionScale={1}
+            resolutionScale={0.5}
           />
           {/* Subtle bottom fade to blend smoothly into subsequent sections */}
           <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-[#050508] pointer-events-none" />
@@ -135,35 +136,36 @@ export function SectionShowcase() {
         <div className="max-w-3xl pointer-events-auto space-y-6 relative z-10">
           {/* Headline */}
           <h1 
-            className="flex flex-col text-[2.5rem] sm:text-[3.5rem] md:text-[4.25rem] lg:text-[5rem] uppercase leading-[0.85] tracking-tight mt-3 mb-5 text-white drop-shadow-2xl" 
+            className="flex flex-col text-[2.25rem] sm:text-[3rem] md:text-[3.75rem] lg:text-[4.5rem] uppercase leading-[0.85] tracking-tight mt-3 mb-5 text-white drop-shadow-2xl" 
             style={{ fontFamily: "'Bebas Neue', sans-serif" }}
           >
             <div className="flex items-center gap-3 sm:gap-4 md:gap-5">
               <span className="text-transparent [-webkit-text-stroke:1.5px_rgba(255,255,255,0.8)] md:[-webkit-text-stroke:2px_rgba(255,255,255,0.8)]">
-                TURN ONE
+                <WavyHeader text="TURN ONE" />
               </span>
               <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full bg-white/5 backdrop-blur-md border border-white/20 flex items-center justify-center shrink-0 shadow-[inset_0_0_15px_rgba(255,255,255,0.1)]">
                 <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,0.8)]"></div>
               </div>
             </div>
             <span className="text-transparent [-webkit-text-stroke:1.5px_rgba(255,255,255,0.8)] md:[-webkit-text-stroke:2px_rgba(255,255,255,0.8)] mt-1">
-              CAMPAIGN
+              <WavyHeader text="CAMPAIGN" delayOffset={0.2} />
             </span>
             <span className="text-white mt-2 md:mt-3">
-              INTO THOUSANDS
+              <WavyHeader text="INTO THOUSANDS" delayOffset={0.4} />
             </span>
             <span className="text-white">
-              OF VIDEOS.
+              <WavyHeader text="OF VIDEOS." delayOffset={0.6} />
             </span>
           </h1>
 
           {/* Subheadline */}
-          <p className="text-base text-white/60 font-light leading-relaxed max-w-2xl">
-            VantaClip connects brands with a network of creators who produce and distribute short-form videos across TikTok, Instagram Reels, and YouTube Shorts — helping businesses reach millions of people organically through authentic content.
-          </p>
+          <GatheringText 
+            text="VantaClip connects brands with a network of creators who produce and distribute short-form videos across TikTok, Instagram Reels, and YouTube Shorts — helping businesses reach millions of people organically through authentic content."
+            className="text-base text-white/60 font-light leading-relaxed max-w-2xl"
+          />
 
           {/* CTA Group */}
-          <div className="pt-3 flex flex-wrap items-center gap-4">
+          <FadeInUp delay={0.45} className="pt-3 flex flex-wrap items-center gap-4">
             <a
               href="#booking"
               className="px-7 py-3.5 rounded-full font-medium text-sm text-white btn-complex-gradient hover:brightness-110 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2"
@@ -178,102 +180,259 @@ export function SectionShowcase() {
             >
               See How It Works
             </a>
-          </div>
+          </FadeInUp>
         </div>
-      </section>
+      </AnimatedSection>
 
-      {/* 3. BUDGET ALERT & TRUST BADGES */}
-      <section id="trust" className="snap-section w-full min-h-screen flex flex-col justify-center px-6 md:px-14 lg:px-20 py-24">
-        <div className="max-w-5xl mx-auto w-full space-y-6 pointer-events-auto relative z-10">
-          {/* Campaign Budget Alert Box */}
-          <div className="p-4 sm:p-5 rounded-2xl border border-purple-500/30 bg-gradient-to-r from-purple-950/40 via-violet-950/20 to-purple-950/40 backdrop-blur-xl flex items-center gap-3.5 shadow-xl shadow-purple-950/30">
-            <div className="w-8 h-8 rounded-full bg-purple-500/20 border border-purple-500/40 flex items-center justify-center shrink-0 text-purple-300">
-              <IconInfo className="w-4 h-4" />
+      {/* 3. BUDGET ALERT & BENTO TRUST MATRIX */}
+      <AnimatedSection id="trust" index={1} className="snap-panel flex flex-col justify-center px-5 sm:px-10 md:px-14 lg:px-20 py-12 sm:py-16 relative overflow-hidden">
+        <div className="max-w-5xl mx-auto w-full space-y-2.5 sm:space-y-3 pointer-events-auto relative z-10 my-auto">
+          {/* 1. Top Campaign Budget Advisory Banner (Flat, Sleek) */}
+          <div className="py-2.5 px-4 sm:px-5 rounded-xl bg-[#0e0a1c]/80 border border-purple-500/30 backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.12),inset_0_-15px_25px_-10px_rgba(147,51,234,0.25)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 sm:gap-4">
+            <div className="flex items-center gap-3">
+              <div className="w-7 h-7 rounded-lg bg-purple-500/20 border border-purple-400/40 flex items-center justify-center shrink-0 text-purple-300">
+                <IconInfo className="w-3.5 h-3.5" />
+              </div>
+              <p className="text-xs sm:text-sm text-white/90 font-normal leading-snug">
+                Campaigns require a minimum <strong className="text-white font-semibold underline decoration-purple-400/60 underline-offset-4">$1,000 campaign budget</strong> plus a separate VantaClip setup and management fee.
+              </p>
             </div>
-            <p className="text-xs sm:text-sm text-white/80 font-normal leading-snug">
-              Campaigns require a minimum <strong className="text-white font-semibold">$1,000 campaign budget</strong> plus a separate VantaClip setup and management fee.
-            </p>
+            <div className="flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-purple-500/15 border border-purple-400/30 text-[10px] font-mono text-purple-200 tracking-wider shrink-0 self-end sm:self-auto">
+              <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
+              ADVISORY
+            </div>
           </div>
 
-          {/* Trust Badges Ribbon */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-            {[
-              { label: "Official Content Rewards Partner", icon: IconHandshake },
-              { label: "Secure Campaign Management", icon: IconShield },
-              { label: "Transparent Reporting", icon: IconBarChart },
-              { label: "Performance Based Campaigns", icon: IconTrendingUp },
-              { label: "Professional Support", icon: IconHeadphones },
-            ].map((badge, idx) => {
-              const IconComp = badge.icon;
-              return (
-                <div
-                  key={idx}
-                  className="px-3.5 py-3 rounded-xl border border-white/[0.08] bg-white/[0.02] backdrop-blur-md flex items-center gap-2.5 text-xs text-white/70 hover:border-purple-500/40 hover:text-white transition-all group"
-                >
-                  <IconComp className="w-4 h-4 text-purple-400 group-hover:scale-110 transition-transform shrink-0" />
-                  <span className="leading-tight font-medium">{badge.label}</span>
+          {/* 2. 5-Card Asymmetric Bento Grid (Tight Gaps, Flat, Varied Gradients & Inner Shadows) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3">
+            {/* Bento Card 1 (Wide 2-Columns): Official Content Rewards Partner (Diagonal Gradient + Bottom Ambient Shadow) */}
+            <div className="md:col-span-2 lg:col-span-2 p-5 sm:p-7 rounded-2xl bg-gradient-to-br from-[#180f33]/85 via-[#0a0714]/90 to-[#140a26]/90 border border-purple-500/35 backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.14),inset_0_-40px_50px_-20px_rgba(147,51,234,0.35),0_10px_25px_-10px_rgba(0,0,0,0.6)] hover:border-purple-400/50 hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),inset_0_-45px_55px_-15px_rgba(168,85,247,0.45),0_15px_35px_-10px_rgba(0,0,0,0.8)] transition-all duration-400 flex flex-col justify-between group min-h-[175px] sm:min-h-[190px] relative overflow-hidden">
+              {/* Giant Watermark VantaClip Logo */}
+              <img 
+                src="/logo.png" 
+                alt="" 
+                className="w-36 h-36 object-contain opacity-[0.06] absolute -bottom-6 -right-4 pointer-events-none group-hover:scale-105 group-hover:opacity-[0.1] transition-all duration-500 select-none" 
+              />
+
+              {/* Card Header */}
+              <div className="flex items-center justify-between gap-4 relative z-10">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-purple-600/20 border border-purple-500/40 flex items-center justify-center text-purple-300 shadow-md shadow-purple-900/40 group-hover:scale-105 transition-transform">
+                    <IconHandshake className="w-4 h-4" />
+                  </div>
+                  <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-purple-500/20 border border-purple-400/30 text-[11px] font-mono text-purple-200 uppercase tracking-widest">
+                    <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-ping" />
+                    Verified Status
+                  </div>
                 </div>
-              );
-            })}
+
+                <span className="text-[11px] font-mono text-white/40 tracking-wider">
+                  TIKTOK • REELS • SHORTS
+                </span>
+              </div>
+
+              {/* Card Body with Enlarged Words */}
+              <div className="space-y-1.5 pt-3 relative z-10">
+                <h3 
+                  className="text-2xl sm:text-3xl lg:text-4xl uppercase tracking-tight text-white leading-[0.9]"
+                  style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+                >
+                  <span className="text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.75)]">OFFICIAL</span> CONTENT REWARDS PARTNER
+                </h3>
+                <p className="text-xs sm:text-sm text-white/70 font-light max-w-lg leading-relaxed">
+                  Direct platform integration granting priority algorithmic indexing and high-volume creator distribution.
+                </p>
+              </div>
+            </div>
+
+            {/* Bento Card 2 (1-Column): Secure Campaign Management (Radial Glow + Top-Right Inset Shadow) */}
+            <div className="md:col-span-2 lg:col-span-1 p-5 sm:p-7 rounded-2xl bg-[radial-gradient(ellipse_at_top_right,rgba(168,85,247,0.22)_0%,rgba(10,8,18,0.92)_70%)] border border-white/10 backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.12),inset_20px_20px_45px_-15px_rgba(168,85,247,0.25),0_10px_25px_-10px_rgba(0,0,0,0.6)] hover:border-purple-400/50 hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),inset_25px_25px_50px_-10px_rgba(168,85,247,0.38),0_15px_35px_-10px_rgba(0,0,0,0.8)] transition-all duration-400 flex flex-col justify-between group min-h-[175px] sm:min-h-[190px] relative overflow-hidden">
+              {/* Giant Watermark Shield */}
+              <IconShield className="w-28 h-28 text-purple-400/10 absolute -bottom-5 -right-5 pointer-events-none group-hover:scale-105 group-hover:text-purple-400/15 transition-all duration-500 select-none" />
+
+              {/* Card Header */}
+              <div className="flex items-center justify-between gap-4 relative z-10">
+                <div className="w-9 h-9 rounded-xl bg-purple-600/20 border border-purple-500/40 flex items-center justify-center text-purple-300 shadow-md shadow-purple-900/40 group-hover:scale-105 transition-transform">
+                  <IconShield className="w-4 h-4" />
+                </div>
+                <span className="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-[11px] font-mono text-purple-300 uppercase tracking-wider">
+                  Escrow Protected
+                </span>
+              </div>
+
+              {/* Card Body */}
+              <div className="space-y-1 pt-3 relative z-10">
+                <h3 
+                  className="text-2xl sm:text-3xl uppercase tracking-tight text-white leading-[0.9]"
+                  style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+                >
+                  <span className="text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.75)]">SECURE</span> MANAGEMENT
+                </h3>
+                <p className="text-xs sm:text-sm text-white/70 font-light leading-relaxed">
+                  Rigorous contract guarantees, verified deliverables, and creator escrow protection.
+                </p>
+              </div>
+            </div>
+
+            {/* Bento Card 3 (1-Column): Transparent Reporting (Vertical Gradient + Bottom Inset Shadow) */}
+            <div className="col-span-1 p-5 sm:p-6 rounded-2xl bg-gradient-to-b from-[#0e0a1a]/90 via-[#07050d]/95 to-[#160b2c]/90 border border-white/10 backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),inset_0_-35px_40px_-15px_rgba(126,34,206,0.32),0_10px_25px_-10px_rgba(0,0,0,0.6)] hover:border-purple-400/50 hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.18),inset_0_-40px_50px_-12px_rgba(147,51,234,0.45),0_15px_35px_-10px_rgba(0,0,0,0.8)] transition-all duration-400 flex flex-col justify-between group min-h-[170px] sm:min-h-[185px] relative overflow-hidden">
+              <IconBarChart className="w-24 h-24 text-purple-400/10 absolute -bottom-4 -right-4 pointer-events-none group-hover:scale-105 group-hover:text-purple-400/15 transition-all duration-500 select-none" />
+
+              <div className="flex items-center justify-between gap-3 relative z-10">
+                <div className="w-8 h-8 rounded-xl bg-purple-600/20 border border-purple-500/40 flex items-center justify-center text-purple-300 group-hover:scale-105 transition-transform">
+                  <IconBarChart className="w-4 h-4" />
+                </div>
+                <span className="text-[10px] font-mono text-purple-300/80 px-2 py-0.5 rounded-full bg-purple-500/10 border border-purple-400/20">
+                  LIVE TELEMETRY
+                </span>
+              </div>
+
+              <div className="space-y-1 pt-3 relative z-10">
+                <h3 
+                  className="text-xl sm:text-2xl uppercase tracking-tight text-white leading-[0.9]"
+                  style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+                >
+                  <span className="text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.75)]">REAL-TIME</span> REPORTING
+                </h3>
+                <p className="text-xs text-white/70 font-light leading-relaxed">
+                  Live dashboard tracking views, likes, and organic reach with zero fabricated metrics.
+                </p>
+              </div>
+            </div>
+
+            {/* Bento Card 4 (1-Column): Performance Based Campaigns (Angled Gradient + Bottom-Right Inset Glow) */}
+            <div className="col-span-1 p-5 sm:p-6 rounded-2xl bg-[linear-gradient(135deg,rgba(147,51,234,0.18)_0%,rgba(10,8,18,0.9)_55%,rgba(22,10,38,0.5)_100%)] border border-purple-500/25 backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.12),inset_-25px_-25px_45px_-15px_rgba(168,85,247,0.3),0_10px_25px_-10px_rgba(0,0,0,0.6)] hover:border-purple-400/50 hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),inset_-30px_-30px_50px_-10px_rgba(168,85,247,0.42),0_15px_35px_-10px_rgba(0,0,0,0.8)] transition-all duration-400 flex flex-col justify-between group min-h-[170px] sm:min-h-[185px] relative overflow-hidden">
+              <IconTrendingUp className="w-24 h-24 text-purple-400/10 absolute -bottom-4 -right-4 pointer-events-none group-hover:scale-105 group-hover:text-purple-400/15 transition-all duration-500 select-none" />
+
+              <div className="flex items-center justify-between gap-3 relative z-10">
+                <div className="w-8 h-8 rounded-xl bg-purple-600/20 border border-purple-500/40 flex items-center justify-center text-purple-300 group-hover:scale-105 transition-transform">
+                  <IconTrendingUp className="w-4 h-4" />
+                </div>
+                <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-400/30 text-[10px] font-mono text-emerald-300">
+                  <span>+340%</span> LIFT
+                </div>
+              </div>
+
+              <div className="space-y-1 pt-3 relative z-10">
+                <h3 
+                  className="text-xl sm:text-2xl uppercase tracking-tight text-white leading-[0.9]"
+                  style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+                >
+                  <span className="text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.75)]">VIRAL</span> VELOCITY
+                </h3>
+                <p className="text-xs text-white/70 font-light leading-relaxed">
+                  Engineered hooking frameworks ensuring maximum audience retention and conversion.
+                </p>
+              </div>
+            </div>
+
+            {/* Bento Card 5 (1-Column): Professional Support (Bottom-Left Radial Glow + Inset Rim Vignette) */}
+            <div className="md:col-span-2 lg:col-span-1 p-5 sm:p-6 rounded-2xl bg-[radial-gradient(circle_at_bottom_left,rgba(168,85,247,0.2)_0%,rgba(10,8,18,0.92)_70%)] border border-white/10 backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),inset_25px_-25px_45px_-15px_rgba(147,51,234,0.3),0_10px_25px_-10px_rgba(0,0,0,0.6)] hover:border-purple-400/50 hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.18),inset_30px_-30px_50px_-10px_rgba(168,85,247,0.42),0_15px_35px_-10px_rgba(0,0,0,0.8)] transition-all duration-400 flex flex-col justify-between group min-h-[170px] sm:min-h-[185px] relative overflow-hidden">
+              <IconHeadphones className="w-24 h-24 text-purple-400/10 absolute -bottom-4 -right-4 pointer-events-none group-hover:scale-105 group-hover:text-purple-400/15 transition-all duration-500 select-none" />
+
+              <div className="flex items-center justify-between gap-3 relative z-10">
+                <div className="w-8 h-8 rounded-xl bg-purple-600/20 border border-purple-500/40 flex items-center justify-center text-purple-300 group-hover:scale-105 transition-transform">
+                  <IconHeadphones className="w-4 h-4" />
+                </div>
+                <span className="px-2 py-0.5 rounded-full bg-purple-500/15 border border-purple-400/30 text-[10px] font-mono text-purple-200">
+                  ⚡ &lt; 15m SLA
+                </span>
+              </div>
+
+              <div className="space-y-1 pt-3 relative z-10">
+                <h3 
+                  className="text-xl sm:text-2xl uppercase tracking-tight text-white leading-[0.9]"
+                  style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+                >
+                  <span className="text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.75)]">24/7</span> STRATEGIST
+                </h3>
+                <p className="text-xs text-white/70 font-light leading-relaxed">
+                  Dedicated campaign managers and around-the-clock creator network operations.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* 4. "HOW IT WORKS" // 4-STEP CHOREOGRAPHED PROCESS */}
-      <section id="how-it-works" className="snap-section w-full min-h-screen px-6 md:px-14 lg:px-20 py-24 flex flex-col justify-center">
+      <AnimatedSection id="how-it-works" index={2} className="snap-panel px-6 md:px-14 lg:px-20 py-24 flex flex-col justify-center">
         <div className="max-w-6xl mx-auto w-full space-y-16 relative z-10">
           {/* Header */}
           <div className="text-center max-w-2xl mx-auto space-y-4 pointer-events-auto">
             <h2 
-              className="flex flex-col text-[2.5rem] sm:text-[3.5rem] md:text-[4.5rem] uppercase leading-[0.85] tracking-tight mt-3 mb-5 text-white"
+              className="flex flex-col text-[2.25rem] sm:text-[3rem] md:text-[3.75rem] lg:text-[4.25rem] uppercase leading-[0.85] tracking-tight mt-3 mb-5 text-white"
               style={{ fontFamily: "'Bebas Neue', sans-serif" }}
             >
-              <span>FROM ONE CAMPAIGN TO</span>
+              <span><WavyHeader text="FROM ONE CAMPAIGN TO" /></span>
               <span className="text-transparent [-webkit-text-stroke:1.5px_rgba(255,255,255,0.8)] md:[-webkit-text-stroke:2px_rgba(255,255,255,0.8)] mt-1 md:mt-2">
-                THOUSANDS OF VIDEOS
+                <WavyHeader text="THOUSANDS OF VIDEOS" delayOffset={0.2} />
               </span>
             </h2>
-            <p className="text-base sm:text-lg text-white/60 font-light">
-              A simple, managed process that turns your content into organic reach across social platforms.
-            </p>
+            <GatheringText 
+              text="A simple, managed process that turns your content into organic reach across social platforms."
+              className="text-base sm:text-lg text-white/60 font-light"
+            />
           </div>
 
-          {/* 4 Interactive Steps Timeline */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 pointer-events-auto">
+          {/* 4 Interactive Steps Timeline in Bento Style */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3 pointer-events-auto">
             {steps.map((step, index) => {
               const IconComponent = step.icon;
               const isActive = activeStep === index;
+              const themes = [
+                {
+                  bg: "bg-gradient-to-br from-[#180f33]/85 via-[#0a0714]/90 to-[#140a26]/90",
+                  shadow: "shadow-[inset_0_1px_1px_rgba(255,255,255,0.14),inset_0_-35px_45px_-18px_rgba(147,51,234,0.32),0_10px_25px_-10px_rgba(0,0,0,0.6)]",
+                },
+                {
+                  bg: "bg-[radial-gradient(ellipse_at_top_right,rgba(168,85,247,0.2)_0%,rgba(10,8,18,0.92)_70%)]",
+                  shadow: "shadow-[inset_0_1px_1px_rgba(255,255,255,0.12),inset_20px_20px_40px_-15px_rgba(168,85,247,0.25),0_10px_25px_-10px_rgba(0,0,0,0.6)]",
+                },
+                {
+                  bg: "bg-[linear-gradient(135deg,rgba(147,51,234,0.18)_0%,rgba(10,8,18,0.9)_55%,rgba(22,10,38,0.5)_100%)]",
+                  shadow: "shadow-[inset_0_1px_1px_rgba(255,255,255,0.12),inset_-25px_-25px_40px_-15px_rgba(168,85,247,0.28),0_10px_25px_-10px_rgba(0,0,0,0.6)]",
+                },
+                {
+                  bg: "bg-[radial-gradient(circle_at_bottom_left,rgba(168,85,247,0.2)_0%,rgba(10,8,18,0.92)_70%)]",
+                  shadow: "shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),inset_25px_-25px_40px_-15px_rgba(147,51,234,0.28),0_10px_25px_-10px_rgba(0,0,0,0.6)]",
+                },
+              ];
+              const theme = themes[index % themes.length];
+
               return (
                 <div
                   key={index}
                   onClick={() => setActiveStep(index)}
-                  className={`p-6 rounded-2xl border transition-all duration-300 cursor-pointer flex flex-col justify-between group ${
+                  className={`p-5 sm:p-6 rounded-2xl border transition-all duration-300 cursor-pointer flex flex-col justify-between group backdrop-blur-xl relative overflow-hidden ${theme.bg} ${theme.shadow} ${
                     isActive
-                      ? "border-purple-500/60 bg-gradient-to-b from-purple-950/40 to-violet-950/20 shadow-2xl shadow-purple-900/30 scale-[1.02]"
-                      : "border-white/[0.08] bg-white/[0.02] hover:border-white/20 hover:bg-white/[0.04]"
+                      ? "border-purple-400/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),inset_0_-45px_50px_-15px_rgba(168,85,247,0.45),0_15px_35px_-10px_rgba(0,0,0,0.8)] scale-[1.02]"
+                      : "border-white/10 hover:border-purple-400/40 hover:scale-[1.01]"
                   }`}
                 >
-                  <div className="space-y-4">
+                  <div className="space-y-3.5 relative z-10">
                     <div className="flex items-center justify-between">
-                      <div className="w-12 h-12 rounded-xl bg-purple-600/20 border border-purple-500/30 flex items-center justify-center text-purple-300 group-hover:scale-110 transition-transform">
-                        <IconComponent className="w-6 h-6" />
+                      <div className="w-10 h-10 rounded-xl bg-purple-600/20 border border-purple-500/35 flex items-center justify-center text-purple-300 group-hover:scale-105 transition-transform">
+                        <IconComponent className="w-5 h-5" />
                       </div>
-                      <span className="text-xs font-mono text-purple-400 tracking-wider">
+                      <span className="text-[11px] font-mono text-purple-400 tracking-wider">
                         STEP {step.num}
                       </span>
                     </div>
 
-                    <div className="space-y-2">
-                      <h3 className="text-lg font-bold text-white tracking-tight group-hover:text-purple-200 transition-colors">
-                        {step.title}
-                      </h3>
-                      <p className="text-xs sm:text-sm text-white/60 leading-relaxed font-light">
-                        {step.desc}
-                      </p>
+                    <div className="space-y-1.5">
+                      <GatheringText 
+                        text={step.title}
+                        className="text-base sm:text-lg font-bold text-white tracking-tight group-hover:text-purple-200 transition-colors"
+                      />
+                      <GatheringText 
+                        text={step.desc}
+                        className="text-xs text-white/70 leading-relaxed font-light"
+                      />
                     </div>
                   </div>
 
-                  <div className="pt-6 mt-4 border-t border-white/[0.06] flex items-center justify-between text-[11px] font-mono text-white/40">
+                  <div className="pt-4 mt-3 border-t border-white/[0.08] flex items-center justify-between text-[11px] font-mono text-white/40 relative z-10">
                     <span>{step.badge}</span>
                     <span className={`w-2 h-2 rounded-full ${isActive ? "bg-purple-400 animate-pulse" : "bg-white/20"}`} />
                   </div>
@@ -281,16 +440,11 @@ export function SectionShowcase() {
               );
             })}
           </div>
-
-          {/* Kinetic Choreography Indicator */}
-          <div className="p-4 rounded-xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-md max-w-xl mx-auto text-center pointer-events-auto text-xs font-mono text-white/50">
-            <span className="text-purple-300 font-semibold">Choreography Note:</span> As you scroll through these steps, the 3D V-nodes scatter across the screen and converge into the left-hand position.
-          </div>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* 5. COMPARISON: "WHY CREATOR-DRIVEN BEATS TRADITIONAL ADVERTISING" */}
-      <section id="comparison" className="snap-section w-full min-h-screen px-6 md:px-14 lg:px-20 py-24 flex flex-col justify-center">
+      <AnimatedSection id="comparison" index={3} className="snap-panel px-6 md:px-14 lg:px-20 py-24 flex flex-col justify-center">
         <div className="max-w-5xl mx-auto w-full space-y-12 relative z-10">
           {/* Header */}
           <div className="text-center max-w-2xl mx-auto space-y-4 pointer-events-auto">
@@ -299,33 +453,35 @@ export function SectionShowcase() {
               Why This Works
             </div>
             <h2 
-              className="flex flex-col text-[2.5rem] sm:text-[3.5rem] md:text-[4.5rem] uppercase leading-[0.85] tracking-tight mt-3 mb-5 text-white"
+              className="flex flex-col text-[2.25rem] sm:text-[3rem] md:text-[3.75rem] lg:text-[4.25rem] uppercase leading-[0.85] tracking-tight mt-3 mb-5 text-white"
               style={{ fontFamily: "'Bebas Neue', sans-serif" }}
             >
-              <span>WHY CREATOR-DRIVEN BEATS</span>
+              <span><WavyHeader text="WHY CREATOR-DRIVEN BEATS" /></span>
               <span className="text-transparent [-webkit-text-stroke:1.5px_rgba(255,255,255,0.8)] md:[-webkit-text-stroke:2px_rgba(255,255,255,0.8)] mt-1 md:mt-2">
-                TRADITIONAL ADVERTISING
+                <WavyHeader text="TRADITIONAL ADVERTISING" delayOffset={0.2} />
               </span>
             </h2>
-            <p className="text-base sm:text-lg text-white/60 font-light">
-              Attention has shifted to short-form content. Here&apos;s why brands are moving their budgets accordingly.
-            </p>
+            <GatheringText 
+              text="Attention has shifted to short-form content. Here's why brands are moving their budgets accordingly."
+              className="text-base sm:text-lg text-white/60 font-light"
+            />
           </div>
 
-          {/* Comparative Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pointer-events-auto">
-            {/* Card 1: Traditional Advertising */}
-            <div className="p-8 rounded-3xl border border-white/[0.08] bg-white/[0.02] backdrop-blur-xl space-y-7 opacity-80 hover:opacity-100 transition-opacity">
+          {/* Comparative Cards in Bento Style */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 pointer-events-auto">
+            {/* Card 1: Traditional Advertising (Dark Flat Matte Bento) */}
+            <div className="p-6 sm:p-8 rounded-2xl border border-white/10 bg-gradient-to-b from-[#100c1c]/85 via-[#07050d]/90 to-[#0d0918]/85 backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.08),inset_0_-30px_35px_-15px_rgba(0,0,0,0.6),0_10px_25px_-10px_rgba(0,0,0,0.6)] space-y-6 hover:border-white/20 transition-all duration-300">
               <div className="space-y-1.5">
                 <span className="text-xs font-mono text-white/40 uppercase tracking-widest">
                   Old Paradigm
                 </span>
-                <h3 className="text-xl font-bold text-white/90 uppercase tracking-wider">
-                  Traditional Advertising
-                </h3>
+                <GatheringText 
+                  text="Traditional Advertising"
+                  className="text-xl font-bold text-white/90 uppercase tracking-wider"
+                />
               </div>
 
-              <ul className="space-y-4 text-sm text-white/60 font-light">
+              <ul className="space-y-3.5 text-sm text-white/60 font-light">
                 <li className="flex items-start gap-3">
                   <div className="w-5 h-5 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center shrink-0 text-red-400 mt-0.5">
                     <IconX className="w-3.5 h-3.5" />
@@ -353,20 +509,21 @@ export function SectionShowcase() {
               </ul>
             </div>
 
-            {/* Card 2: Creator-Driven Campaigns */}
-            <div className="p-8 rounded-3xl border border-purple-500/50 bg-gradient-to-b from-purple-950/40 via-violet-950/30 to-[#0c0918] backdrop-blur-xl space-y-7 shadow-2xl shadow-purple-900/40 relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-36 h-36 bg-purple-500/20 rounded-full blur-3xl pointer-events-none" />
+            {/* Card 2: Creator-Driven Campaigns (High Velocity Bento with Purple Inner Glow) */}
+            <div className="p-6 sm:p-8 rounded-2xl border border-purple-500/40 bg-gradient-to-br from-[#1c1038]/90 via-[#0b0816]/95 to-[#160b2e]/90 backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.18),inset_0_-40px_50px_-20px_rgba(147,51,234,0.4),0_15px_35px_-10px_rgba(0,0,0,0.8)] space-y-6 hover:border-purple-400/60 transition-all duration-300 relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-36 h-36 bg-purple-500/15 rounded-full blur-3xl pointer-events-none" />
 
-              <div className="space-y-1.5">
+              <div className="space-y-1.5 relative z-10">
                 <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-purple-500/20 border border-purple-400/30 text-[11px] font-mono text-purple-300 uppercase tracking-widest">
                   ★ High Velocity
                 </div>
-                <h3 className="text-xl font-bold text-white uppercase tracking-wider">
-                  Creator-Driven Campaigns
-                </h3>
+                <GatheringText 
+                  text="Creator-Driven Campaigns"
+                  className="text-xl font-bold text-white uppercase tracking-wider"
+                />
               </div>
 
-              <ul className="space-y-4 text-sm text-white/90 font-normal">
+              <ul className="space-y-3.5 text-sm text-white/90 font-normal relative z-10">
                 <li className="flex items-start gap-3">
                   <div className="w-5 h-5 rounded-full bg-purple-500/20 border border-purple-400/40 flex items-center justify-center shrink-0 text-purple-300 mt-0.5">
                     <IconCheck className="w-3.5 h-3.5" />
@@ -395,10 +552,10 @@ export function SectionShowcase() {
             </div>
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* 6. IMMERSIVE BENTO GRID: "WHY BRANDS CHOOSE VANTACLIP" */}
-      <section id="why-brands-stay" className="snap-section w-full min-h-screen px-6 md:px-14 lg:px-20 py-24 flex flex-col justify-center">
+      <AnimatedSection id="why-brands-stay" index={4} className="snap-panel px-6 md:px-14 lg:px-20 py-24 flex flex-col justify-center">
         <div className="max-w-6xl mx-auto w-full space-y-12 relative z-10">
           {/* Header */}
           <div className="text-center max-w-2xl mx-auto space-y-4 pointer-events-auto">
@@ -407,48 +564,53 @@ export function SectionShowcase() {
               Why Brands Stay
             </div>
             <h2 
-              className="flex flex-col text-[2.5rem] sm:text-[3.5rem] md:text-[4.5rem] uppercase leading-[0.85] tracking-tight mt-3 mb-5 text-white"
+              className="flex flex-col text-[2.25rem] sm:text-[3rem] md:text-[3.75rem] lg:text-[4.25rem] uppercase leading-[0.85] tracking-tight mt-3 mb-5 text-white"
               style={{ fontFamily: "'Bebas Neue', sans-serif" }}
             >
-              <span>WHY BRANDS CHOOSE</span>
+              <span><WavyHeader text="WHY BRANDS CHOOSE" /></span>
               <span className="text-transparent [-webkit-text-stroke:1.5px_rgba(255,255,255,0.8)] md:[-webkit-text-stroke:2px_rgba(255,255,255,0.8)] mt-1 md:mt-2">
-                VANTACLIP
+                <WavyHeader text="VANTACLIP" delayOffset={0.2} />
               </span>
             </h2>
-            <p className="text-base sm:text-lg text-white/60 font-light">
-              More visibility, more creators talking about your product, and a clearer view of what&apos;s working.
-            </p>
+            <GatheringText 
+              text="More visibility, more creators talking about your product, and a clearer view of what's working."
+              className="text-base sm:text-lg text-white/60 font-light"
+            />
           </div>
 
           {/* Interactive Bento Grid with Mouse Cursor Spotlight */}
           <div
             ref={bentoGridRef}
             onMouseMove={handleBentoMouseMove}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 pointer-events-auto relative p-1 rounded-3xl"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3 pointer-events-auto relative p-1 rounded-2xl"
             style={{
               background: `radial-gradient(700px circle at ${bentoMousePos.x}px ${bentoMousePos.y}px, rgba(168, 85, 247, 0.12), transparent 80%)`,
             }}
           >
             {/* Bento Card 1: Access to a Creator Network (Spans 2 cols on lg) */}
-            <div className="lg:col-span-2 p-8 rounded-3xl border border-white/[0.09] bg-[#0c0a16]/80 backdrop-blur-xl flex flex-col justify-between space-y-6 hover:border-purple-500/50 transition-all group overflow-hidden relative">
-              <div className="space-y-3 z-10">
-                <div className="w-12 h-12 rounded-xl bg-purple-600/20 border border-purple-500/30 flex items-center justify-center text-purple-300 group-hover:scale-110 transition-transform">
-                  <IconUsers className="w-6 h-6" />
+            <div className="lg:col-span-2 p-6 sm:p-7 rounded-2xl border border-purple-500/35 bg-gradient-to-br from-[#180f33]/85 via-[#0a0714]/90 to-[#140a26]/90 backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.14),inset_0_-40px_50px_-20px_rgba(147,51,234,0.35),0_10px_25px_-10px_rgba(0,0,0,0.6)] flex flex-col justify-between space-y-5 hover:border-purple-400/50 transition-all duration-300 group overflow-hidden relative">
+              <div className="space-y-2.5 z-10">
+                <div className="w-10 h-10 rounded-xl bg-purple-600/20 border border-purple-500/35 flex items-center justify-center text-purple-300 group-hover:scale-105 transition-transform">
+                  <IconUsers className="w-5 h-5" />
                 </div>
-                <h3 className="text-2xl font-bold text-white">Access to a Creator Network</h3>
-                <p className="text-sm text-white/70 font-light max-w-md">
-                  Tap into a managed network of clippers ready to turn your content into organic reach.
-                </p>
+                <GatheringText 
+                  text="Access to a Creator Network"
+                  className="text-xl sm:text-2xl font-bold text-white"
+                />
+                <GatheringText 
+                  text="Tap into a managed network of clippers ready to turn your content into organic reach."
+                  className="text-xs sm:text-sm text-white/70 font-light max-w-md"
+                />
               </div>
 
               {/* Interactive Visual: Live Creator Radar Widget */}
-              <div className="p-4 rounded-2xl bg-black/40 border border-white/[0.06] flex items-center justify-between flex-wrap gap-4 z-10">
+              <div className="p-3.5 rounded-xl bg-black/50 border border-white/[0.08] shadow-inner flex items-center justify-between flex-wrap gap-4 z-10">
                 <div className="flex items-center gap-3">
                   <div className="flex -space-x-2 overflow-hidden">
                     {["#a855f7", "#06b6d4", "#ec4899", "#8b5cf6"].map((col, i) => (
                       <div
                         key={i}
-                        className="inline-block h-8 w-8 rounded-full ring-2 ring-[#0c0a16] flex items-center justify-center text-[10px] font-bold text-white shadow"
+                        className="inline-block h-7 w-7 rounded-full ring-2 ring-[#0c0a16] flex items-center justify-center text-[10px] font-bold text-white shadow"
                         style={{ backgroundColor: col }}
                       >
                         {String.fromCharCode(65 + i)}
@@ -457,63 +619,71 @@ export function SectionShowcase() {
                   </div>
                   <div className="text-xs">
                     <div className="font-semibold text-white">1,240+ Active Clippers</div>
-                    <div className="text-white/40">Ready to ingest your footage</div>
+                    <div className="text-white/40 text-[11px]">Ready to ingest your footage</div>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 text-xs font-mono text-emerald-400 bg-emerald-950/40 px-3 py-1.5 rounded-full border border-emerald-500/30">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <div className="flex items-center gap-2 text-[11px] font-mono text-emerald-400 bg-emerald-950/40 px-2.5 py-1 rounded-full border border-emerald-500/30">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                   Live Network Online
                 </div>
               </div>
             </div>
 
             {/* Bento Card 2: End-to-End Campaign Management */}
-            <div className="p-8 rounded-3xl border border-white/[0.09] bg-[#0c0a16]/80 backdrop-blur-xl flex flex-col justify-between space-y-6 hover:border-purple-500/50 transition-all group">
-              <div className="space-y-3">
-                <div className="w-12 h-12 rounded-xl bg-purple-600/20 border border-purple-500/30 flex items-center justify-center text-purple-300 group-hover:scale-110 transition-transform">
-                  <IconZap className="w-6 h-6" />
+            <div className="p-6 sm:p-7 rounded-2xl border border-white/10 bg-[radial-gradient(ellipse_at_top_right,rgba(168,85,247,0.22)_0%,rgba(10,8,18,0.92)_70%)] backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.12),inset_20px_20px_45px_-15px_rgba(168,85,247,0.25),0_10px_25px_-10px_rgba(0,0,0,0.6)] flex flex-col justify-between space-y-5 hover:border-purple-400/50 transition-all duration-300 group">
+              <div className="space-y-2.5">
+                <div className="w-10 h-10 rounded-xl bg-purple-600/20 border border-purple-500/35 flex items-center justify-center text-purple-300 group-hover:scale-105 transition-transform">
+                  <IconZap className="w-5 h-5" />
                 </div>
-                <h3 className="text-xl font-bold text-white">End-to-End Campaign Management</h3>
-                <p className="text-sm text-white/70 font-light">
-                  From strategy to execution, we handle creator coordination, content distribution, and performance tracking.
-                </p>
+                <GatheringText 
+                  text="End-to-End Campaign Management"
+                  className="text-lg sm:text-xl font-bold text-white"
+                />
+                <GatheringText 
+                  text="From strategy to execution, we handle creator coordination, content distribution, and performance tracking."
+                  className="text-xs sm:text-sm text-white/70 font-light"
+                />
               </div>
 
               {/* Progress steps mini widget */}
-              <div className="space-y-2 text-xs font-mono">
+              <div className="space-y-1.5 text-xs font-mono">
                 {["01 Briefing", "02 Distribution", "03 Performance"].map((s, idx) => (
-                  <div key={idx} className="flex items-center justify-between p-2 rounded-lg bg-white/[0.02] border border-white/[0.04]">
-                    <span className="text-white/60">{s}</span>
-                    <span className="text-purple-400 font-semibold">✓ Automated</span>
+                  <div key={idx} className="flex items-center justify-between p-2 rounded-lg bg-black/40 border border-white/[0.06]">
+                    <span className="text-white/60 text-[11px]">{s}</span>
+                    <span className="text-purple-400 font-semibold text-[11px]">✓ Automated</span>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Bento Card 3: Short-Form Content Expertise */}
-            <div className="p-8 rounded-3xl border border-white/[0.09] bg-[#0c0a16]/80 backdrop-blur-xl flex flex-col justify-between space-y-6 hover:border-purple-500/50 transition-all group">
-              <div className="space-y-3">
-                <div className="w-12 h-12 rounded-xl bg-purple-600/20 border border-purple-500/30 flex items-center justify-center text-purple-300 group-hover:scale-110 transition-transform">
-                  <IconTrendingUp className="w-6 h-6" />
+            <div className="p-6 sm:p-7 rounded-2xl border border-white/10 bg-gradient-to-b from-[#0e0a1a]/90 via-[#07050d]/95 to-[#160b2c]/90 backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),inset_0_-35px_40px_-15px_rgba(126,34,206,0.32),0_10px_25px_-10px_rgba(0,0,0,0.6)] flex flex-col justify-between space-y-5 hover:border-purple-400/50 transition-all duration-300 group">
+              <div className="space-y-2.5">
+                <div className="w-10 h-10 rounded-xl bg-purple-600/20 border border-purple-500/35 flex items-center justify-center text-purple-300 group-hover:scale-105 transition-transform">
+                  <IconTrendingUp className="w-5 h-5" />
                 </div>
-                <h3 className="text-xl font-bold text-white">Short-Form Content Expertise</h3>
-                <p className="text-sm text-white/70 font-light">
-                  We know what makes TikTok, Reels, and Shorts content perform — and apply it to every campaign.
-                </p>
+                <GatheringText 
+                  text="Short-Form Content Expertise"
+                  className="text-lg sm:text-xl font-bold text-white"
+                />
+                <GatheringText 
+                  text="We know what makes TikTok, Reels, and Shorts content perform — and apply it to every campaign."
+                  className="text-xs sm:text-sm text-white/70 font-light"
+                />
               </div>
 
               {/* Platform metrics pills */}
               <div className="grid grid-cols-3 gap-2 text-center text-xs font-mono">
-                <div className="p-2 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+                <div className="p-2 rounded-xl bg-black/40 border border-white/[0.06]">
                   <div className="text-purple-300 font-bold">TikTok</div>
                   <div className="text-[10px] text-white/40">Hook Eng.</div>
                 </div>
-                <div className="p-2 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+                <div className="p-2 rounded-xl bg-black/40 border border-white/[0.06]">
                   <div className="text-purple-300 font-bold">Reels</div>
                   <div className="text-[10px] text-white/40">Audio Sync</div>
                 </div>
-                <div className="p-2 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+                <div className="p-2 rounded-xl bg-black/40 border border-white/[0.06]">
                   <div className="text-purple-300 font-bold">Shorts</div>
                   <div className="text-[10px] text-white/40">Retention</div>
                 </div>
@@ -521,78 +691,90 @@ export function SectionShowcase() {
             </div>
 
             {/* Bento Card 4: Transparent Reporting */}
-            <div className="p-8 rounded-3xl border border-white/[0.09] bg-[#0c0a16]/80 backdrop-blur-xl flex flex-col justify-between space-y-6 hover:border-purple-500/50 transition-all group">
-              <div className="space-y-3">
-                <div className="w-12 h-12 rounded-xl bg-purple-600/20 border border-purple-500/30 flex items-center justify-center text-purple-300 group-hover:scale-110 transition-transform">
-                  <IconShield className="w-6 h-6" />
+            <div className="p-6 sm:p-7 rounded-2xl border border-purple-500/25 bg-[linear-gradient(135deg,rgba(147,51,234,0.18)_0%,rgba(10,8,18,0.9)_55%,rgba(22,10,38,0.5)_100%)] backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.12),inset_-25px_-25px_45px_-15px_rgba(168,85,247,0.3),0_10px_25px_-10px_rgba(0,0,0,0.6)] flex flex-col justify-between space-y-5 hover:border-purple-400/50 transition-all duration-300 group">
+              <div className="space-y-2.5">
+                <div className="w-10 h-10 rounded-xl bg-purple-600/20 border border-purple-500/35 flex items-center justify-center text-purple-300 group-hover:scale-105 transition-transform">
+                  <IconShield className="w-5 h-5" />
                 </div>
-                <h3 className="text-xl font-bold text-white">Transparent Reporting</h3>
-                <p className="text-sm text-white/70 font-light">
-                  We only showcase verified outcomes — no fabricated statistics, no fake testimonials, ever.
-                </p>
+                <GatheringText 
+                  text="Transparent Reporting"
+                  className="text-lg sm:text-xl font-bold text-white"
+                />
+                <GatheringText 
+                  text="We only showcase verified outcomes — no fabricated statistics, no fake testimonials, ever."
+                  className="text-xs sm:text-sm text-white/70 font-light"
+                />
               </div>
 
               {/* Verified Badge */}
-              <div className="p-3 rounded-xl bg-purple-950/30 border border-purple-500/30 flex items-center justify-between text-xs font-mono">
-                <span className="text-purple-300">100% Real Analytics</span>
-                <span className="text-emerald-400 font-bold">Audited</span>
+              <div className="p-2.5 rounded-xl bg-black/40 border border-purple-500/30 flex items-center justify-between text-xs font-mono">
+                <span className="text-purple-300 text-[11px]">100% Real Analytics</span>
+                <span className="text-emerald-400 font-bold text-[11px]">Audited</span>
               </div>
             </div>
 
             {/* Bento Card 5: Professional Execution (Spans 2 cols on lg) */}
-            <div className="lg:col-span-2 p-8 rounded-3xl border border-white/[0.09] bg-[#0c0a16]/80 backdrop-blur-xl flex flex-col justify-between space-y-6 hover:border-purple-500/50 transition-all group">
-              <div className="space-y-3">
-                <div className="w-12 h-12 rounded-xl bg-purple-600/20 border border-purple-500/30 flex items-center justify-center text-purple-300 group-hover:scale-110 transition-transform">
-                  <IconBarChart className="w-6 h-6" />
+            <div className="lg:col-span-2 p-6 sm:p-7 rounded-2xl border border-white/10 bg-[radial-gradient(circle_at_bottom_left,rgba(168,85,247,0.2)_0%,rgba(10,8,18,0.92)_70%)] backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),inset_25px_-25px_45px_-15px_rgba(147,51,234,0.3),0_10px_25px_-10px_rgba(0,0,0,0.6)] flex flex-col justify-between space-y-5 hover:border-purple-400/50 transition-all duration-300 group">
+              <div className="space-y-2.5">
+                <div className="w-10 h-10 rounded-xl bg-purple-600/20 border border-purple-500/35 flex items-center justify-center text-purple-300 group-hover:scale-105 transition-transform">
+                  <IconBarChart className="w-5 h-5" />
                 </div>
-                <h3 className="text-2xl font-bold text-white">Professional Execution</h3>
-                <p className="text-sm text-white/70 font-light max-w-lg">
-                  Every campaign is planned, briefed, and managed with clear communication from start to finish.
-                </p>
+                <GatheringText 
+                  text="Professional Execution"
+                  className="text-xl sm:text-2xl font-bold text-white"
+                />
+                <GatheringText 
+                  text="Every campaign is planned, briefed, and managed with clear communication from start to finish."
+                  className="text-xs sm:text-sm text-white/70 font-light max-w-lg"
+                />
               </div>
 
               {/* Service SLA Highlights */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-                <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.06] text-xs space-y-1">
-                  <div className="text-white font-semibold">&lt;24h Deployment</div>
-                  <div className="text-white/40 font-mono">Fast campaign ramp-up</div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1">
+                <div className="p-2.5 rounded-xl bg-black/40 border border-white/[0.06] text-xs space-y-0.5">
+                  <div className="text-white font-semibold text-[11px]">&lt;24h Deployment</div>
+                  <div className="text-white/40 font-mono text-[10px]">Fast campaign ramp-up</div>
                 </div>
-                <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.06] text-xs space-y-1">
-                  <div className="text-white font-semibold">Direct Slack/Discord</div>
-                  <div className="text-white/40 font-mono">Real-time team channel</div>
+                <div className="p-2.5 rounded-xl bg-black/40 border border-white/[0.06] text-xs space-y-0.5">
+                  <div className="text-white font-semibold text-[11px]">Direct Slack/Discord</div>
+                  <div className="text-white/40 font-mono text-[10px]">Real-time team channel</div>
                 </div>
-                <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.06] text-xs space-y-1">
-                  <div className="text-white font-semibold">Weekly Growth Audit</div>
-                  <div className="text-white/40 font-mono">Iterative hook tuning</div>
+                <div className="p-2.5 rounded-xl bg-black/40 border border-white/[0.06] text-xs space-y-0.5">
+                  <div className="text-white font-semibold text-[11px]">Weekly Growth Audit</div>
+                  <div className="text-white/40 font-mono text-[10px]">Iterative hook tuning</div>
                 </div>
               </div>
             </div>
 
             {/* Bento Card 6: Official Content Rewards Partner (Full width bottom highlight) */}
-            <div className="lg:col-span-3 p-8 rounded-3xl border border-purple-500/40 bg-gradient-to-r from-purple-950/40 via-[#0d0a1c]/80 to-purple-950/40 backdrop-blur-xl flex flex-col sm:flex-row items-center justify-between gap-6 hover:border-purple-400/60 transition-all group">
-              <div className="flex items-center gap-4">
-                <div className="w-14 h-14 rounded-2xl bg-purple-600/20 border border-purple-500/40 flex items-center justify-center text-purple-300 shrink-0 group-hover:scale-110 transition-transform shadow-lg shadow-purple-900/30">
-                  <IconHandshake className="w-7 h-7" />
+            <div className="lg:col-span-3 p-5 sm:p-6 rounded-2xl border border-purple-500/40 bg-gradient-to-r from-[#180f33]/90 via-[#0c0918]/95 to-[#180f33]/90 backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.15),inset_0_-25px_35px_-15px_rgba(147,51,234,0.3),0_12px_25px_-10px_rgba(0,0,0,0.7)] flex flex-col sm:flex-row items-center justify-between gap-4 hover:border-purple-400/60 transition-all duration-300 group">
+              <div className="flex items-center gap-3.5">
+                <div className="w-11 h-11 rounded-xl bg-purple-600/20 border border-purple-500/40 flex items-center justify-center text-purple-300 shrink-0 group-hover:scale-105 transition-transform shadow-md shadow-purple-900/30">
+                  <IconHandshake className="w-5 h-5" />
                 </div>
-                <div className="space-y-1">
-                  <h3 className="text-xl font-bold text-white">Official Content Rewards Partner</h3>
-                  <p className="text-sm text-white/70 font-light max-w-xl">
-                    Our partnership gives your campaigns credibility and access built on an established platform.
-                  </p>
+                <div className="space-y-0.5">
+                  <GatheringText 
+                    text="Official Content Rewards Partner"
+                    className="text-base sm:text-lg font-bold text-white"
+                  />
+                  <GatheringText 
+                    text="Our partnership gives your campaigns credibility and access built on an established platform."
+                    className="text-xs text-white/70 font-light max-w-xl"
+                  />
                 </div>
               </div>
 
-              <div className="px-5 py-2.5 rounded-full border border-purple-400/40 bg-purple-500/10 text-purple-200 text-xs font-mono uppercase tracking-widest shrink-0">
+              <div className="px-3.5 py-1.5 rounded-full border border-purple-400/40 bg-purple-500/10 text-purple-200 text-[11px] font-mono uppercase tracking-widest shrink-0">
                 Verified Platform Status
               </div>
             </div>
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* 7. HIGH-CONVERTING CLOSING STRATEGY CALL / CTA SECTION WITH INTEGRATED FOOTER */}
-      <section id="booking" className="snap-section min-h-screen w-full px-6 md:px-14 lg:px-20 pt-20 pb-8 flex flex-col justify-between relative">
-        <div className="max-w-4xl mx-auto my-auto w-full rounded-3xl border border-purple-500/40 bg-gradient-to-b from-purple-950/40 via-[#0e0a1e]/90 to-[#06050a] p-8 sm:p-14 text-center space-y-8 backdrop-blur-2xl shadow-2xl shadow-purple-950/50 pointer-events-auto relative z-10 overflow-hidden">
+      <AnimatedSection id="booking" index={5} className="snap-panel px-6 md:px-14 lg:px-20 pt-20 pb-8 flex flex-col justify-between relative">
+        <div className="max-w-4xl mx-auto my-auto w-full rounded-2xl border border-purple-500/35 bg-gradient-to-b from-[#180f33]/90 via-[#0b0816]/95 to-[#06040c] p-6 sm:p-12 text-center space-y-6 backdrop-blur-2xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.16),inset_0_-40px_60px_-20px_rgba(147,51,234,0.35),0_20px_45px_-15px_rgba(0,0,0,0.85)] pointer-events-auto relative z-10 overflow-hidden">
           <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl pointer-events-none" />
 
           <div className="space-y-4 relative z-10">
@@ -601,17 +783,18 @@ export function SectionShowcase() {
               Scale Your Distribution
             </div>
             <h2 
-              className="flex flex-col text-[2.5rem] sm:text-[3.5rem] md:text-[4.5rem] uppercase leading-[0.85] tracking-tight mt-3 mb-5 text-white"
+              className="flex flex-col text-[2.25rem] sm:text-[3rem] md:text-[3.75rem] lg:text-[4.25rem] uppercase leading-[0.85] tracking-tight mt-3 mb-5 text-white"
               style={{ fontFamily: "'Bebas Neue', sans-serif" }}
             >
-              <span>READY TO TURN ONE CAMPAIGN</span>
+              <span><WavyHeader text="READY TO TURN ONE CAMPAIGN" /></span>
               <span className="text-transparent [-webkit-text-stroke:1.5px_rgba(255,255,255,0.8)] md:[-webkit-text-stroke:2px_rgba(255,255,255,0.8)] mt-1 md:mt-2">
-                INTO MILLIONS OF VIEWS?
+                <WavyHeader text="INTO MILLIONS OF VIEWS?" delayOffset={0.2} />
               </span>
             </h2>
-            <p className="text-base sm:text-lg text-white/60 font-light max-w-xl mx-auto">
-              Schedule your strategy call with VantaClip today and let&apos;s map out your short-form distribution blueprint.
-            </p>
+            <GatheringText 
+              text="Schedule your strategy call with VantaClip today and let's map out your short-form distribution blueprint."
+              className="text-base sm:text-lg text-white/60 font-light max-w-xl mx-auto"
+            />
           </div>
 
           <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4 relative z-10">
@@ -643,7 +826,7 @@ export function SectionShowcase() {
             <a href="#" className="hover:text-purple-400 transition-colors">Twitter / X</a>
           </div>
         </footer>
-      </section>
+      </AnimatedSection>
     </div>
   );
 }

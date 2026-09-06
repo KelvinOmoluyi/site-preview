@@ -15,6 +15,27 @@ class ScrollProgressController {
     active: false,
   };
 
+  public isSiteLoaded: boolean = false;
+  public currentSection: number = 0;
+
+  public setLoaded(val: boolean) {
+    this.isSiteLoaded = val;
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent("vanta-site-loaded"));
+    }
+  }
+
+  public setSection(index: number) {
+    this.currentSection = index;
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(
+        new CustomEvent("vanta-section-change", {
+          detail: { index, isScrolled: index > 0 },
+        })
+      );
+    }
+  }
+
   public setProgress(val: number, velocity: number = 0) {
     this.progress = Math.max(0, Math.min(1, val));
     this.velocity = velocity;

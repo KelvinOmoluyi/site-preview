@@ -101,87 +101,100 @@ export function evaluateCubeAtProgress(
   // Stagger calculation: each cube peels away slightly staggered by phase
   const staggerDelay = (Math.sin(cube.phase) * 0.5 + 0.5) * 0.04;
 
+  const right = cube.states.formationRight;
+  const scatter = cube.states.scatter;
+  const left = cube.states.formationLeft;
+
+  // Intermediate choreography stages:
+  // Stage 2 (p = 0.40): Deep swirling scatter expansion across the center
+  const scatterSwirlPos: Vector3Tuple = [
+    scatter.position[0] * 1.12 + Math.sin(cube.phase) * 0.6,
+    scatter.position[1] * 1.08 + Math.cos(cube.phase) * 0.5,
+    scatter.position[2] + Math.sin(cube.phase * 2) * 0.8,
+  ];
+  const scatterSwirlRot: Vector3Tuple = [
+    scatter.rotation[0] + 0.6,
+    scatter.rotation[1] + 0.8,
+    scatter.rotation[2] + 0.4,
+  ];
+
+  // Stage 3 (p = 0.60): Dispersal drifting toward the left half of the screen
+  const scatterLeftPos: Vector3Tuple = [
+    scatter.position[0] * 0.72 - 1.5 + Math.sin(cube.phase * 1.4) * 0.4,
+    scatter.position[1] * 0.92 + Math.cos(cube.phase * 1.1) * 0.3,
+    scatter.position[2] * 0.85,
+  ];
+  const scatterLeftRot: Vector3Tuple = [
+    scatter.rotation[0] + 1.1,
+    scatter.rotation[1] + 1.4,
+    scatter.rotation[2] + 0.7,
+  ];
+
+  // Stage 5 (p = 1.00): Left V gracefully tilting to frame the final CTA card
+  const leftFramedPos: Vector3Tuple = [
+    left.position[0] - 0.2,
+    left.position[1] - 0.15,
+    left.position[2] - 0.3,
+  ];
+  const leftFramedRot: Vector3Tuple = [
+    left.rotation[0] + 0.05,
+    left.rotation[1] - 0.08,
+    left.rotation[2],
+  ];
+
   let pos: Vector3Tuple;
   let rot: Vector3Tuple;
   let scale: number;
 
-  if (p <= 0.04) {
-    // Section 1 (Hero): Firmly in Right V Formation
-    const right = cube.states.formationRight;
-    pos = [
-      right.position[0] + idleX,
-      right.position[1] + idleY,
-      right.position[2],
-    ];
-    rot = [
-      right.rotation[0] + idleRotX,
-      right.rotation[1] + idleRotY,
-      right.rotation[2],
-    ];
-    scale = right.scale;
-  } else if (p < 0.17) {
-    // Scroll Transition from Hero to Section 2: Breaking apart from Right V into Scatter
-    const startRange = 0.04 + staggerDelay;
-    const endRange = 0.17;
-    const t = smootherstep(startRange, endRange, p);
-
-    const right = cube.states.formationRight;
-    const scatter = cube.states.scatter;
-
+  if (p < 0.20) {
+    // Stage 0 -> 1: Hero to Trust (Peeling off Right V into Scatter)
+    const t = smootherstep(0.00 + staggerDelay, 0.20, p);
     pos = arcVector3(right.position, scatter.position, scatter.position, t);
     pos[0] += idleX * (1 + t);
     pos[1] += idleY * (1 + t);
-
     rot = interpolateVector3(right.rotation, scatter.rotation, t);
     rot[0] += idleRotX * (1 + t * 2);
     rot[1] += idleRotY * (1 + t * 2);
-
     scale = lerp(right.scale, scatter.scale, t);
-  } else if (p < 0.55) {
-    // Sections 2, 3, 4 (Trust/Budget, How It Works, Comparison): Fully Scattered
-    const scatter = cube.states.scatter;
-    pos = [
-      scatter.position[0] + idleX * 2,
-      scatter.position[1] + idleY * 2,
-      scatter.position[2],
-    ];
-    rot = [
-      scatter.rotation[0] + idleRotX * 3,
-      scatter.rotation[1] + idleRotY * 3,
-      scatter.rotation[2],
-    ];
+  } else if (p < 0.40) {
+    // Stage 1 -> 2: Trust to How It Works (Scatter expanding & swirling across center)
+    const t = smootherstep(0.20, 0.40, p);
+    pos = interpolateVector3(scatter.position, scatterSwirlPos, t);
+    pos[0] += idleX * 2;
+    pos[1] += idleY * 2;
+    rot = interpolateVector3(scatter.rotation, scatterSwirlRot, t);
+    rot[0] += idleRotX * 3;
+    rot[1] += idleRotY * 3;
+    scale = scatter.scale;
+  } else if (p < 0.60) {
+    // Stage 2 -> 3: How It Works to Comparison (Swarm migrating toward left side)
+    const t = smootherstep(0.40, 0.60, p);
+    pos = interpolateVector3(scatterSwirlPos, scatterLeftPos, t);
+    pos[0] += idleX * 2;
+    pos[1] += idleY * 2;
+    rot = interpolateVector3(scatterSwirlRot, scatterLeftRot, t);
+    rot[0] += idleRotX * 3;
+    rot[1] += idleRotY * 3;
     scale = scatter.scale;
   } else if (p < 0.80) {
-    // Sections 4 to 5: Traveling across the viewport and converging towards Left V
-    const startRange = 0.55;
-    const endRange = 0.80 - staggerDelay;
-    const t = smootherstep(startRange, endRange, p);
-
-    const scatter = cube.states.scatter;
-    const left = cube.states.formationLeft;
-
-    pos = arcVector3(scatter.position, scatter.position, left.position, t);
+    // Stage 3 -> 4: Comparison to Bento (Swarm converging into Left V)
+    const t = smootherstep(0.60, 0.80 - staggerDelay, p);
+    pos = arcVector3(scatterLeftPos, left.position, left.position, t);
     pos[0] += idleX * (2 - t);
     pos[1] += idleY * (2 - t);
-
-    rot = interpolateVector3(scatter.rotation, left.rotation, t);
+    rot = interpolateVector3(scatterLeftRot, left.rotation, t);
     rot[0] += idleRotX * (3 - 2 * t);
     rot[1] += idleRotY * (3 - 2 * t);
-
     scale = lerp(scatter.scale, left.scale, t);
   } else {
-    // Section 5 & 6 (Why Brands Stay & Booking): Firmly in Left V Formation
-    const left = cube.states.formationLeft;
-    pos = [
-      left.position[0] + idleX,
-      left.position[1] + idleY,
-      left.position[2],
-    ];
-    rot = [
-      left.rotation[0] + idleRotX,
-      left.rotation[1] + idleRotY,
-      left.rotation[2],
-    ];
+    // Stage 4 -> 5: Bento to Booking (Left V perspective depth tilt)
+    const t = smootherstep(0.80, 1.00, p);
+    pos = interpolateVector3(left.position, leftFramedPos, t);
+    pos[0] += idleX;
+    pos[1] += idleY;
+    rot = interpolateVector3(left.rotation, leftFramedRot, t);
+    rot[0] += idleRotX;
+    rot[1] += idleRotY;
     scale = left.scale;
   }
 

@@ -77,8 +77,8 @@ export function CubeField({ cubes, isReducedPower = false }: CubeFieldProps) {
 
   useFrame((state, delta) => {
     const targetP = scrollController.getProgress();
-    // Smooth damping for scroll progress (eliminates any scroll hitching)
-    currentProgress.current += (targetP - currentProgress.current) * Math.min(1, delta * 8);
+    // Responsive tracking of the continuous slide transition
+    currentProgress.current += (targetP - currentProgress.current) * Math.min(1, delta * 18);
 
     const time = state.clock.getElapsedTime();
     const pointer = scrollController.pointer;
