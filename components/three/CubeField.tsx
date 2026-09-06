@@ -185,8 +185,9 @@ export function CubeField({ cubes, isReducedPower = false }: CubeFieldProps) {
         baseTransform.rotation[2] + distState.currentRot[2]
       );
 
-      const targetScale = baseTransform.scale * responsiveScale;
+      const targetScale = Math.max(0, baseTransform.scale * responsiveScale);
       mesh.scale.set(targetScale, targetScale, targetScale);
+      mesh.visible = targetScale > 0.001;
     }
   });
 

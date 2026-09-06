@@ -76,23 +76,23 @@ export function evaluateCubeAtProgress(
   const scatter = cube.states.scatter;
   const finalScatter = cube.states.finalScatter;
 
-  // Reduced motion: smooth gentle glide from right V into final full-view scatter
+  // Reduced motion: gentle glide off-screen in the final section
   if (isReducedMotion) {
-    const t = smootherstep(0.04, 0.80, p);
+    const tExit = smootherstep(0.75, 1.00, p);
     const pos = interpolateVector3(
       right.position,
       finalScatter.position,
-      t
+      tExit
     );
     const rot = interpolateVector3(
       right.rotation,
       finalScatter.rotation,
-      t
+      tExit
     );
     return {
       position: pos,
       rotation: rot,
-      scale: lerp(right.scale, finalScatter.scale, t),
+      scale: lerp(right.scale, 0.0, tExit),
     };
   }
 
@@ -132,14 +132,14 @@ export function evaluateCubeAtProgress(
 
   // Stage 3 (p = 0.80): Ambient background swarm around Bento section (Why Brands Stay)
   const scatterAmbientPos: Vector3Tuple = [
-    lerp(scatterMidPos[0], finalScatter.position[0], 0.45) + Math.sin(cube.phase * 1.7) * 0.35,
-    lerp(scatterMidPos[1], finalScatter.position[1], 0.45) + Math.cos(cube.phase * 1.3) * 0.3,
-    lerp(scatterMidPos[2], finalScatter.position[2], 0.45) + Math.sin(cube.phase * 2.1) * 0.4,
+    scatterMidPos[0] * 1.15 + Math.sin(cube.phase * 1.7) * 0.4,
+    scatterMidPos[1] * 1.10 + Math.cos(cube.phase * 1.3) * 0.35,
+    scatterMidPos[2] * 0.90 + Math.sin(cube.phase * 2.1) * 0.5,
   ];
   const scatterAmbientRot: Vector3Tuple = [
-    lerp(scatterMidRot[0], finalScatter.rotation[0], 0.45) + 0.3,
-    lerp(scatterMidRot[1], finalScatter.rotation[1], 0.45) + 0.4,
-    lerp(scatterMidRot[2], finalScatter.rotation[2], 0.45) + 0.2,
+    scatterMidRot[0] + 0.4,
+    scatterMidRot[1] + 0.5,
+    scatterMidRot[2] + 0.3,
   ];
 
   let pos: Vector3Tuple;
@@ -185,19 +185,17 @@ export function evaluateCubeAtProgress(
     rot = interpolateVector3(scatterMidRot, scatterAmbientRot, t);
     rot[0] += idleRotX * (3 - 2 * t);
     rot[1] += idleRotY * (3 - 2 * t);
-    scale = lerp(scatter.scale, finalScatter.scale, t * 0.5);
+    scale = lerp(scatter.scale, 0.88, t);
   } else {
-    // Stage 4 -> 5: Bento to Booking (Final section: Scatter out wide over the entire view of the website)
+    // Stage 4 -> 5: Bento to Booking (Final section: Scatter COMPLETELY OUT of view of the website)
     const t = smootherstep(0.80, 1.00, p);
     pos = interpolateVector3(scatterAmbientPos, finalScatter.position, t);
-    pos[0] += idleX * (1.2 + Math.sin(cube.phase) * 0.3);
-    pos[1] += idleY * (1.2 + Math.cos(cube.phase) * 0.3);
-    pos[2] += Math.sin(time * 1.3 + cube.phase) * 0.08;
+    pos[0] += idleX * (1.2 - t * 1.2);
+    pos[1] += idleY * (1.2 - t * 1.2);
     rot = interpolateVector3(scatterAmbientRot, finalScatter.rotation, t);
-    rot[0] += idleRotX * 1.5;
-    rot[1] += idleRotY * 1.5;
-    const ambientScale = lerp(scatter.scale, finalScatter.scale, 0.5);
-    scale = lerp(ambientScale, finalScatter.scale, t);
+    rot[0] += idleRotX * (1.5 - t * 1.5);
+    rot[1] += idleRotY * (1.5 - t * 1.5);
+    scale = lerp(0.88, 0.0, t);
   }
 
   return {

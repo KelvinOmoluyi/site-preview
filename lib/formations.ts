@@ -185,43 +185,43 @@ export function generateScatterFormation(
 
 /**
  * Generates coordinate states for the final section scatter formation.
- * Cubes scatter out across the full viewport (left, right, top, bottom, depth)
- * framing the entire view of the website rather than clustering into a V.
+ * Cubes scatter completely out of view of the website in all directions
+ * (moving far beyond the viewport bounds) with scale fading to 0.
  */
 export const FINAL_SCATTER_POSITIONS: Vector3Tuple[] = [
-  [5.0, 2.6, -0.5],   // 0: Far Top-Right
-  [4.4, 1.2, 0.5],    // 1: Mid-Right upper
-  [4.7, -0.7, -0.3],  // 2: Mid-Right lower
-  [5.1, -2.5, 0.2],   // 3: Far Bottom-Right
-  [-5.1, 2.7, -0.4],  // 4: Far Top-Left
-  [-4.5, 1.3, 0.4],   // 5: Mid-Left upper
-  [-4.8, -0.6, -0.2], // 6: Mid-Left lower
-  [-5.0, -2.4, 0.3],  // 7: Far Bottom-Left
-  [-2.4, 3.2, -1.0],  // 8: Top Center-Left
-  [2.3, 3.1, -0.9],   // 9: Top Center-Right
-  [-2.1, -3.2, -0.7], // 10: Bottom Center-Left
-  [2.0, -3.1, -0.8],  // 11: Bottom Center-Right
-  [0.0, 0.5, -3.0],   // 12: Deep Center Parallax
+  [18.0, 12.0, -2.0],   // 0: Far Top-Right (off-screen)
+  [20.0, 6.0, 2.0],     // 1: Upper-Right (off-screen)
+  [20.0, -5.0, -2.0],   // 2: Lower-Right (off-screen)
+  [18.0, -12.0, 1.0],   // 3: Far Bottom-Right (off-screen)
+  [-18.0, 12.0, -2.0],  // 4: Far Top-Left (off-screen)
+  [-20.0, 6.0, 2.0],    // 5: Upper-Left (off-screen)
+  [-20.0, -5.0, -1.0],  // 6: Lower-Left (off-screen)
+  [-18.0, -12.0, 1.0],  // 7: Far Bottom-Left (off-screen)
+  [-10.0, 16.0, -3.0],  // 8: High Top-Left (off-screen)
+  [10.0, 16.0, -2.0],   // 9: High Top-Right (off-screen)
+  [-8.0, -16.0, -1.0],  // 10: Deep Bottom-Left (off-screen)
+  [8.0, -16.0, -2.0],   // 11: Deep Bottom-Right (off-screen)
+  [0.0, 18.0, 5.0],     // 12: High Center ejection (off-screen)
 ];
 
 export const FINAL_SCATTER_ROTATIONS: Vector3Tuple[] = [
-  [0.4, -0.6, 0.2],
-  [-0.3, 0.8, -0.5],
-  [0.6, 0.4, 0.7],
-  [-0.5, -0.3, 0.4],
-  [0.5, 0.7, -0.3],
-  [-0.4, -0.6, 0.5],
-  [0.7, -0.4, -0.6],
-  [-0.3, 0.5, 0.2],
-  [0.2, -0.3, 0.8],
-  [-0.2, 0.5, -0.6],
-  [0.5, -0.2, 0.3],
-  [-0.4, 0.3, -0.4],
-  [0.6, 0.8, 0.2],
+  [1.2, -1.6, 0.8],
+  [-0.9, 1.8, -1.2],
+  [1.4, 0.9, 1.5],
+  [-1.2, -0.8, 1.1],
+  [1.1, 1.5, -0.9],
+  [-1.0, -1.4, 1.2],
+  [1.5, -0.9, -1.3],
+  [-0.8, 1.2, 0.6],
+  [0.7, -0.9, 1.6],
+  [-0.6, 1.3, -1.4],
+  [1.2, -0.6, 0.8],
+  [-0.9, 0.8, -1.1],
+  [1.4, 1.6, 0.5],
 ];
 
 export const FINAL_SCATTER_SCALES: number[] = [
-  0.92, 1.05, 0.95, 0.88, 0.92, 1.05, 0.95, 0.88, 0.78, 0.78, 0.75, 0.75, 0.68,
+  0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
 ];
 
 export function generateFinalScatterFormation(count: number): CubeTransformState[] {
