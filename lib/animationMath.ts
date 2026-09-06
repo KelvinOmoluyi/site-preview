@@ -118,11 +118,29 @@ export function evaluateCubeAtProgress(
     scatter.rotation[2] + 0.4,
   ];
 
-  // Stage 2 (p = 0.60): Dispersal traveling across comparison section
+  // Stage 2 (p = 0.60): Dispersal across comparison section
+  // Displace cubes wider and lower/under the bento so they don't obstruct the header & subtitle text
+  const rawMidX = scatter.position[0];
+  const midSignX = rawMidX >= 0 ? 1 : -1;
+  // Displace outward horizontally: minimum |x| around 3.8 to 5.8 units, framing the section from the sides
+  const spreadMidX = midSignX * (3.8 + Math.abs(rawMidX) * 0.5) + Math.sin(cube.phase * 1.4) * 0.35;
+
+  // Vertically: move cubes away from the central text corridor (|y| between -0.3 and 1.8)
+  // Send some higher to the outer top flanks (y >= 2.2), and the majority down under/behind the bento (y <= -1.4)
+  const rawMidY = scatter.position[1];
+  let spreadMidY: number;
+  if (rawMidY > 0.8) {
+    // Upper outer flanks framing the header from the corners
+    spreadMidY = 2.4 + Math.cos(cube.phase * 1.3) * 0.5;
+  } else {
+    // Under and behind the bento cards
+    spreadMidY = -1.6 - Math.abs(rawMidY) * 0.8 + Math.sin(cube.phase * 1.6) * 0.4;
+  }
+
   const scatterMidPos: Vector3Tuple = [
-    scatter.position[0] * 0.95 + Math.sin(cube.phase * 1.4) * 0.5,
-    scatter.position[1] * 0.95 + Math.cos(cube.phase * 1.1) * 0.4,
-    scatter.position[2] * 0.9 + Math.sin(cube.phase * 1.8) * 0.6,
+    spreadMidX,
+    spreadMidY,
+    scatter.position[2] * 0.85 + Math.sin(cube.phase * 1.8) * 0.5,
   ];
   const scatterMidRot: Vector3Tuple = [
     scatter.rotation[0] + 1.1,
@@ -132,9 +150,9 @@ export function evaluateCubeAtProgress(
 
   // Stage 3 (p = 0.80): Ambient background swarm around Bento section (Why Brands Stay)
   const scatterAmbientPos: Vector3Tuple = [
-    scatterMidPos[0] * 1.15 + Math.sin(cube.phase * 1.7) * 0.4,
-    scatterMidPos[1] * 1.10 + Math.cos(cube.phase * 1.3) * 0.35,
-    scatterMidPos[2] * 0.90 + Math.sin(cube.phase * 2.1) * 0.5,
+    spreadMidX * 1.05 + Math.sin(cube.phase * 1.7) * 0.3,
+    spreadMidY * 0.95 + Math.cos(cube.phase * 1.3) * 0.3,
+    scatter.position[2] * 0.90 + Math.sin(cube.phase * 2.1) * 0.5,
   ];
   const scatterAmbientRot: Vector3Tuple = [
     scatterMidRot[0] + 0.4,

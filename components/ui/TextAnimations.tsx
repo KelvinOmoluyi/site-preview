@@ -151,7 +151,7 @@ export function GatheringText({
   });
   
   return (
-    <p className={`${className} flex flex-wrap`}>
+    <p className={className}>
       {words.map(({ word, bold }, i) => (
         <motion.span
           key={i}

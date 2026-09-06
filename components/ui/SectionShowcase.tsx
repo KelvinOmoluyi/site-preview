@@ -763,7 +763,7 @@ export function SectionShowcase() {
               Scale Your Distribution
             </div>
             <h2 
-              className="flex flex-col text-[1.85rem] sm:text-[2.5rem] md:text-[3rem] lg:text-[3.5rem] uppercase leading-[0.88] tracking-tight my-1 sm:my-2 text-white"
+              className="flex flex-col items-center text-[1.85rem] sm:text-[2.5rem] md:text-[3rem] lg:text-[3.5rem] uppercase leading-[0.88] tracking-tight my-1 sm:my-2 text-white text-center"
               style={{ fontFamily: "'Bebas Neue', sans-serif" }}
             >
               <span><WavyHeader text="READY TO TURN ONE CAMPAIGN" /></span>
@@ -773,7 +773,7 @@ export function SectionShowcase() {
             </h2>
             <GatheringText 
               text="Schedule your strategy call with VantaClip today and let's map out your short-form distribution blueprint."
-              className="text-xs sm:text-sm text-white/60 font-light max-w-lg mx-auto"
+              className="text-xs sm:text-sm text-white/60 font-light max-w-lg mx-auto text-center"
             />
           </div>
 
